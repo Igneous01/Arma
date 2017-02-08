@@ -1,0 +1,5 @@
+_spotter = _this select 0
+_sniper = _this select 1
+_id = _this select 2
+; Get the Range
+[str([cursortarget,player] call RMM_f_getDistance), 3] call RMM_f_PrintF;

@@ -1,0 +1,17 @@
+meetscript_ = [man1, man2, Mpos, "ActsPercMstpSnonWunaDnon_sceneNikitinDisloyalty_Bardak", "AidlPercSnonWnonDnon_talk1", exAr, exBr, 0, 25] execVM "script_meeting\meetingscript.sqf"
+
+
+-- using radio on chest loop
+"Acts_Kore_TalkingOverRadio_loop"
+
+-- listening to radio on head loop
+"Acts_listeningToRadio_Loop"
+
+-- hands on hips talking
+"Acts_A_M01_briefing"
+
+-- small movement talking
+"Acts_B_M02_briefing"
+
+-- very animated talking (hands moving around)
+"Acts_B_out2_briefing"

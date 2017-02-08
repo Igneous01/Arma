@@ -1,0 +1,105 @@
+onLoadMission = "Operation Owl"; // the text that will be shown while the mission loads
+OnLoadMissionTime = true; // show the mission time when mission loads
+
+
+showCompass=1;
+showRadio=1;
+showGPS=0;
+showMap=1;
+showNotepad=1;
+showWatch=1;
+debriefing=1;
+
+class CfgMusic
+{
+ tracks[]={};
+
+ class hollow
+ {
+  name = "Hollow Sound";
+  sound[] = {"objcomplete.ogg", db-2, 1.0};
+ };
+};
+
+class Weapons 
+{
+ // rifles
+ class M24 {count = 1;};
+ class ACE_AS50 {count = 1;};
+ class ACE_M109 {count = 1;};
+ class ACE_M110 {count = 1;};
+ class ACE_M110_SD {count = 1;};
+ class ACE_SVD_Bipod {count = 1;};
+ class ACE_TAC50 {count = 1;};
+ class ACE_TAC50_SD {count = 1;};
+ class BAF_LRR_scoped {count = 1;};
+ class DMR {count = 1;};
+ class huntingrifle {count = 1;};
+ class ksvk {count = 1;};
+ class m107 {count = 1;};
+ class m110_NVG_EP1 {count = 1;};
+ class VSS_vintorez {count = 1;};
+ class M40A3 {count = 1;};
+ class SVD_NSPU_EP1 {count = 1;};
+ class SVD_CAMO {count = 1;};
+ 
+ // equipment
+ class Binocular {count = 2;};
+ class Binocular_Vector {count = 2;};
+ class ACE_Earplugs {count = 2;};
+ class ACE_Map_Tools {count = 1;};
+ class NVGoggles {count = 2;};
+ class ItemCompass {count = 2;};
+ class ItemWatch {count = 2;};
+ class ItemRadio {count = 2;};
+ class ItemMap {count = 2;};
+ class ACE_Kestrel4500 {count = 1;};
+ class ACE_SpottingScope {count = 1;};
+ 
+ // pistols
+ class ACE_APS {count =1;};
+ class ACE_APSB {count =1;};
+ class ACE_Glock18 {count =1;};
+ class ACE_P226 {count =1;};
+ class ACE_P8 {count =1;};
+ class ACE_TT {count =1;};
+ class ACE_USP {count =1;};
+ class ACE_USPSD {count =1;};
+ class Colt1911 {count =1;};
+ class glock17_EP1 {count = 1;};
+ class m9 {count = 1;};
+ class m9SD {count = 1;};
+};
+
+class Magazines 
+{
+ class ACE_Battery_Rangefinder {count = 2;};
+ class ACE_5Rnd_127x99_B_TAC50 {count = 1;};
+ class ACE_5Rnd_25x59_HEDP_Barrett {count = 1;};
+ class ACE_20Rnd_762x51_S_M110 {count = 1;};
+ class 20Rnd_762x51_B_SCAR {count = 1;};
+ class 10Rnd_762x54_SVD {count = 1;};
+ class 5Rnd_86x70_L115A1 {count = 1;};
+ class 20Rnd_762x51_DMR {count = 1;};
+ class 5x_22_LR_17_HMR {count = 1;};
+ class 5Rnd_127x108_KSVK {count = 1;};
+ class 10Rnd_127x99_m107 {count = 1;};
+ class 5Rnd_762x51_M24 {count = 1;};
+ class 20Rnd_9x39_SP5_VSS {count = 1;};
+ 
+ // pistol mags
+ class ACE_20Rnd_9x18_APS {count = 6;};
+ class ACE_20Rnd_9x18_APSB {count = 6;};
+ class ACE_33Rnd_9x19_G18 {count = 6;};
+ class ACE_15Rnd_9x19_P226 {count = 6;};
+ class ACE_15Rnd_9x19_P8 {count = 6;};
+ class ACE_8Rnd_762x25_B_Tokarev {count = 6;};
+ class ACE_12Rnd_45ACP_USP {count = 6;};
+ class ACE_12Rnd_45ACP_USPSD {count = 6;};
+ class 7Rnd_45ACP_1911 {count = 6;};
+ class 17Rnd_9x19_glock17 {count = 6;};
+ class 15Rnd_9x19_M9 {count = 6;};
+ class 15Rnd_9x19_M9SD {count = 6;};
+ class ACE_M86PDM {count = 2;};
+ class SmokeShell {count = 8;};
+};

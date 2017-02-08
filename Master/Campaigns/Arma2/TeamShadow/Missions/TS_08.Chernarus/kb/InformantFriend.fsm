@@ -1,0 +1,357 @@
+/*%FSM<COMPILE "C:\Program Files\Bohemia Interactive\Tools\FSM Editor Personal Edition\scriptedFSM.cfg, InformantFriend">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"React",0,250,-200.000000,-175.000000,-100.000000,-125.000000,0.000000,"React"};
+item1[] = {"Response1",4,218,-200.000000,-100.000000,-100.000000,-50.000000,0.000000,"Response1"};
+item2[] = {"InfTalk2_",3,250,-200.000000,-25.000000,-100.000000,25.000000,0.000000,"InfTalk2" \n ""};
+item3[] = {"invalid_ID",8,218,-450.000000,-100.000000,-350.000000,-50.000000,-1.000000,"invalid ID"};
+item4[] = {"terminate",1,250,-450.000000,-25.000000,-350.000000,25.000000,0.000000,"terminate"};
+item5[] = {"RefusalTalk",4,218,-200.000000,200.000000,-100.000000,250.000000,0.000000,"RefusalTalk"};
+item6[] = {"Refuse",1,250,-325.000000,200.000000,-225.000000,250.000000,0.000000,"Refuse"};
+item7[] = {"AcceptedTalk",4,218,-75.000000,125.000000,25.000000,175.000000,0.000000,"AcceptedTalk"};
+item8[] = {"Accept",2,250,50.000000,125.000000,150.000000,175.000000,0.000000,"Accept"};
+item9[] = {"InfTalk3",2,250,-200.000000,125.000000,-100.000000,175.000000,0.000000,"InfTalk3"};
+item10[] = {"Response_2",4,218,-200.000000,50.000000,-100.000000,100.000000,0.500000,"Response 2"};
+item11[] = {"Suit_Case_Dropped",4,218,50.000000,200.000000,150.000000,250.000000,0.000000,"Suit Case Dropped Off?"};
+item12[] = {"Informant_Friend",2,4346,50.000000,275.000000,150.000000,325.000000,0.000000,"Informant Friend helps team"};
+item13[] = {"Final_Waypoint_",4,218,50.000000,350.000000,150.000000,400.000000,0.000000,"Final Waypoint?"};
+item14[] = {"Final_Destinatio",2,250,50.000000,425.000000,150.000000,475.000000,0.000000,"Final Destination"};
+item15[] = {"Stay_Here_",4,218,50.000000,500.000000,150.000000,550.000000,0.000000,"Stay Here?"};
+item16[] = {"Go_to_Informant",1,250,50.000000,600.000000,150.000000,650.000000,0.000000,"Go to Informant"};
+item17[] = {"Go_Away_",4,218,175.000000,425.000000,275.000000,475.000000,0.000000,"Go Away?"};
+item18[] = {"Leave_Area",1,250,300.000000,425.000000,400.000000,475.000000,0.000000,"Leave Area"};
+item19[] = {"Inf_Friend_Dead",4,218,200.000000,275.000000,300.000000,325.000000,0.000000,"Inf Friend Dead?"};
+item20[] = {"Fail_Task",1,250,325.000000,275.000000,425.000000,325.000000,0.000000,"Fail Task"};
+item21[] = {"Dead_",4,218,200.000000,125.000000,300.000000,175.000000,0.000000,"Dead?"};
+item22[] = {"Fail_Task_1",1,250,350.000000,125.000000,450.000000,175.000000,0.000000,"Fail Task"};
+link0[] = {0,1};
+link1[] = {0,3};
+link2[] = {1,2};
+link3[] = {2,10};
+link4[] = {3,4};
+link5[] = {5,6};
+link6[] = {7,8};
+link7[] = {8,11};
+link8[] = {8,21};
+link9[] = {9,5};
+link10[] = {9,7};
+link11[] = {10,9};
+link12[] = {11,12};
+link13[] = {12,13};
+link14[] = {12,19};
+link15[] = {13,14};
+link16[] = {14,15};
+link17[] = {14,17};
+link18[] = {15,16};
+link19[] = {17,18};
+link20[] = {19,20};
+link21[] = {21,22};
+globals[] = {25.000000,1,0,0,0,640,480,2,40,6316128,1,-171.779144,503.077820,639.064087,-28.053679,782,862,1};
+window[] = {2,-1,-1,-1,-1,794,44,1066,58,3,800};
+*//*%FSM</HEAD>*/
+class FSM
+{
+  fsmName = "InformantFriend";
+  class States
+  {
+    /*%FSM<STATE "React">*/
+    class React
+    {
+      name = "React";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Response1">*/
+        class Response1
+        {
+          priority = 0.000000;
+          to="InfTalk2_";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"_sentenceId == ""SniperTalk01"" && alive _this"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "invalid_ID">*/
+        class invalid_ID
+        {
+          priority = -1.000000;
+          to="terminate";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"true"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "InfTalk2_">*/
+    class InfTalk2_
+    {
+      name = "InfTalk2_";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalk02""]; " \n
+       "" \n
+       ""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Response_2">*/
+        class Response_2
+        {
+          priority = 0.500000;
+          to="InfTalk3";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper kbWasSaid [_this, _topic, ""SniperTalk02"", 7] && alive _this"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "terminate">*/
+    class terminate
+    {
+      name = "terminate";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Refuse">*/
+    class Refuse
+    {
+      name = "Refuse";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalkRefusal""];"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Accept">*/
+    class Accept
+    {
+      name = "Accept";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalkAccepted""];" \n
+       """suitcasemark1"" setmarkertype ""unknown"";" \n
+       """suitcasemark2"" setmarkertype ""unknown"";" \n
+       """suitcasemark3"" setmarkertype ""unknown"";" \n
+       """suitcasemark4"" setmarkertype ""unknown"";" \n
+       "oobj1 = sniper createsimpletask ["" Find the suitcase""];" \n
+       "oobj1 setsimpletaskdescription [""Find the missing suitcase. (Optional)"", ""Find the suitcase"", """"];" \n
+       "oobj1 settaskstate ""Created"";" \n
+       "_nul1 = [objNull, ObjNull, oobj1, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "S_Case hideobject false;"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Dead_">*/
+        class Dead_
+        {
+          priority = 0.000000;
+          to="Fail_Task_1";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive _this"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "Suit_Case_Dropped">*/
+        class Suit_Case_Dropped
+        {
+          priority = 0.000000;
+          to="Informant_Friend";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"DZ_SuitCasePickedUp == 1;"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "InfTalk3">*/
+    class InfTalk3
+    {
+      name = "InfTalk3";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalk03""]; "/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "AcceptedTalk">*/
+        class AcceptedTalk
+        {
+          priority = 0.000000;
+          to="Accept";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper kbWasSaid [_this, _topic, ""SniperTalkAccept"", 7];" \n
+           "" \n
+           ""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "RefusalTalk">*/
+        class RefusalTalk
+        {
+          priority = 0.000000;
+          to="Refuse";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper kbWasSaid [_this, _topic, ""SniperTalkRefuse"", 7]"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Informant_Friend">*/
+    class Informant_Friend
+    {
+      name = "Informant_Friend";
+      init = /*%FSM<STATEINIT""">*/"oobj1 settaskstate ""SUCCEEDED"";" \n
+       "_nul1 = [objNull, ObjNull, oobj1, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "_this kbTell [sniper, _topic, ""InfFriendTalkSucceeded""];" \n
+       "oobj2 = sniper createsimpletask [""Follow the informants subordinate""];" \n
+       "oobj2 setsimpletaskdescription [""Follow him to the location of the informant"", ""Follow subordinate"", ""Follow""];" \n
+       "oobj2 settaskstate ""Created"";" \n
+       "_nul1 = [objNull, ObjNull, oobj2, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "hint ""Use the scroll actions to set the speed of travel"";" \n
+       "Inf_Friend enableai ""move""; " \n
+       "guyfast = sniper addAction [""Lets pick up the pace."",""gen_action.sqf"",""Inf_Friend setspeedmode 'Normal'""]; " \n
+       "guyslow = sniper addAction [""Lets slow it down"",""gen_action.sqf"",""Inf_Friend setspeedmode 'Limited'""];   " \n
+       ""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Inf_Friend_Dead">*/
+        class Inf_Friend_Dead
+        {
+          priority = 0.000000;
+          to="Fail_Task";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive _this"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "Final_Waypoint_">*/
+        class Final_Waypoint_
+        {
+          priority = 0.000000;
+          to="Final_Destinatio";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"Inf_Friend getVariable ""_LastDest"" == 1;"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Final_Destinatio">*/
+    class Final_Destinatio
+    {
+      name = "Final_Destinatio";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalkDestination""];" \n
+       "oobj2 settaskstate ""Succeeded"";" \n
+       "_nul1 = [objNull, ObjNull, oobj2, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf"";" \n
+       "sniper removeaction guyfast; " \n
+       "sniper removeaction guyslow;  "/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Go_Away_">*/
+        class Go_Away_
+        {
+          priority = 0.000000;
+          to="Leave_Area";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper kbWasSaid [_this, _topic, ""SniperTalkLetGo"", 7];"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "Stay_Here_">*/
+        class Stay_Here_
+        {
+          priority = 0.000000;
+          to="Go_to_Informant";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper kbWasSaid [_this, _topic, ""SniperTalkStayHere"", 7];"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Go_to_Informant">*/
+    class Go_to_Informant
+    {
+      name = "Go_to_Informant";
+      init = /*%FSM<STATEINIT""">*/"_this kbTell [sniper, _topic, ""InfFriendTalkStayHere""];" \n
+       "_IFwp = (group Inf_Friend) addWaypoint [(getmarkerpos ""inf_friend_movemark""), 0];" \n
+       "[group Inf_Friend, 3] setWaypointType ""MOVE"";" \n
+       "[group Inf_Friend, 3] setWaypointSpeed ""Limited"";" \n
+       "// Inf_Friend domove (getmarkerpos ""inf_friend_movemark"");" \n
+       "Inf_Friend setspeedmode ""limited"";" \n
+       "Inf_Friend setBehaviour ""AWARE"";" \n
+       "hint ""The subordinate will go and meet the informant, use this time to scout around"";"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Leave_Area">*/
+    class Leave_Area
+    {
+      name = "Leave_Area";
+      init = /*%FSM<STATEINIT""">*/"hint ""The subordinate has left"";" \n
+       "//Inf_Friend domove (getmarkerpos ""inf_friend_leavemark"")" \n
+       "_IFwp = (group Inf_Friend) addWaypoint [(getmarkerpos ""inf_friend_leavemark""), 0];" \n
+       "[group Inf_Friend, 3] setWaypointType ""MOVE"";" \n
+       "[group Inf_Friend, 3] setWaypointSpeed ""NORMAL"";" \n
+       "Inf_Friend setBehaviour ""AWARE"""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Fail_Task">*/
+    class Fail_Task
+    {
+      name = "Fail_Task";
+      init = /*%FSM<STATEINIT""">*/"oobj2 settaskstate ""Failed"";" \n
+       "_nul1 = [objNull, ObjNull, oobj2, ""FAILED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "sniper removeaction guyfast; " \n
+       "sniper removeaction guyslow; " \n
+       ""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Fail_Task_1">*/
+    class Fail_Task_1
+    {
+      name = "Fail_Task_1";
+      init = /*%FSM<STATEINIT""">*/"oobj1 settaskstate ""FAILED"";" \n
+       "_nul35 = [objNull, ObjNull, oobj1, ""FAILED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "hint ""he is dead"";"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+  };
+  initState="React";
+  finalStates[] =
+  {
+    "terminate",
+    "Refuse",
+    "Go_to_Informant",
+    "Leave_Area",
+    "Fail_Task",
+    "Fail_Task_1",
+  };
+};
+/*%FSM</COMPILE>*/

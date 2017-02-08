@@ -1,0 +1,119 @@
+//////////////////////////////////////////////////////////////////
+// Description file for Armed Assault
+// Created by: TODO: Author Name
+//////////////////////////////////////////////////////////////////
+
+class MissionDefault
+{
+ 	lives = -1;
+ 
+	lost = ;
+	end1 = ;
+	end2 = ;
+	end3 = ;
+	end4 = ;
+	end5 = ;
+	end6 = ;
+};
+
+
+class Campaign
+{
+	name = "Team Shadow";
+	firstBattle = Beginning;
+
+	class Beginning
+	{
+		name = "Prologue";
+		cutscene = TS_Prologue.Chernarus;
+		firstMission = M00;
+		end1 = ;
+		end2 = ;
+		end3 = ;
+		end4 = ;
+		end5 = ;
+		end6 = ;
+		lost = ;
+
+            // shooting range
+		class M00: MissionDefault
+		{
+			end1 = M01;
+			lost = M00;
+			template = TS_00.ProvingGrounds_PMC;
+		};
+		
+		// stalking exam
+		class M01: MissionDefault
+		{
+			end1 = M02;
+			lost = M01;
+			template = TS_01.ProvingGrounds_PMC;
+		};
+		
+		// final exam
+		class M02: MissionDefault
+		{
+			end1 = M03;
+			lost = M02;
+			template = TS_02.ProvingGrounds_PMC;
+		};
+		
+		// Utes Recon
+		class M03: MissionDefault
+		{
+			end1 = M04;
+			lost = M03;
+			template = TS_03.utes;
+		};
+		
+		// Chernogorsk escape
+		class M04: MissionDefault
+		{
+			end1 = M05;
+			lost = M04;
+			template = TS_04.Chernarus;
+		};
+		
+		// Skalisty Island CS
+		class M05: MissionDefault
+		{
+			end1 = M06;
+			lost = M05;
+			template = TS_05.Chernarus;
+		};
+		
+		// SAR helicopter crash
+            class M06: MissionDefault
+		{
+			end1 = M07;
+			lost = M06;
+			template = TS_06.Chernarus;
+		};
+		
+		// Invisible Man
+            class M07: MissionDefault
+		{
+			end1 = M08;
+			lost = M07;
+			template = TS_07.Chernarus;
+		};
+		
+		// Mystery Man
+            class M08: MissionDefault
+		{
+			end1 = M09;
+			lost = M08;
+			template = TS_08.Chernarus;
+		};
+		
+		// Patrol
+            class M09: MissionDefault
+		{
+			end1 = M09;
+			lost = M09;
+			template = TS_09.Chernarus;
+		};
+				
+	};
+};

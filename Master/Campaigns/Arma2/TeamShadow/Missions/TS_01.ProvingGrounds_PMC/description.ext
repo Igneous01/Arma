@@ -1,0 +1,11 @@
+onLoadMission = "Stalking Examination"; // the text that will be shown while the mission loads
+OnLoadMissionTime = true; // show the mission time when mission loads
+
+
+showCompass=1;
+showRadio=0;
+showGPS=1;
+showMap=1;
+showNotepad=1;
+showWatch=1;
+debriefing=1;

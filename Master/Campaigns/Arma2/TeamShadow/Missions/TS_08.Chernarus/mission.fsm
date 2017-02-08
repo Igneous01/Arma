@@ -1,0 +1,414 @@
+/*%FSM<COMPILE "C:\Program Files\Bohemia Interactive\Tools\FSM Editor Personal Edition\scriptedFSM.cfg, Mission">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"React",0,250,-200.000000,-200.000000,-100.000000,-150.000000,0.000000,"React"};
+item1[] = {"Informant_Found",4,218,-25.000000,-225.000000,150.000000,-125.000000,0.000000,"Informant Found?"};
+item2[] = {"Obj1_Completed",2,250,25.000000,-350.000000,125.000000,-300.000000,0.000000,"Obj1 Completed"};
+item3[] = {"Evidence_Collected",4,218,225.000000,-350.000000,350.000000,-250.000000,0.000000,"Evidence Collected?"};
+item4[] = {"Intel_Collected",2,250,425.000000,-350.000000,525.000000,-300.000000,0.000000,"Intel Collected "};
+item5[] = {"Fail_InfEscort_M",2,4346,25.000000,-650.000000,150.000000,-550.000000,0.000000,"Fail InfEscort Mission"};
+item6[] = {"__alive_Informant",4,218,250.000000,-525.000000,400.000000,-425.000000,0.000000,"!alive Informant?" \n "!Completed Task?"};
+item7[] = {"Informant_Evacuated",4,218,450.000000,-475.000000,600.000000,-400.000000,0.000000,"Informant Evacuated?"};
+item8[] = {"Informant_move_",2,250,450.000000,-600.000000,575.000000,-550.000000,0.000000,"Informant move" \n " into chopper"};
+item9[] = {"__alive_MERCHANT",4,218,25.000000,-850.000000,175.000000,-750.000000,0.000000,"!alive MERCHANT?"};
+item10[] = {"Obj2_Completed",2,250,50.000000,-1000.000000,150.000000,-950.000000,0.000000,"Obj2 Completed"};
+item11[] = {"__alive_BLACK_PIRATE",4,218,400.000000,-850.000000,575.000000,-775.000000,0.000000,"!alive BLACK PIRATE?"};
+item12[] = {"Main_Side__Objective",2,250,425.000000,-1000.000000,525.000000,-950.000000,0.000000,"Main Side " \n "Objective " \n "Completed"};
+item13[] = {"Extracted_",4,218,225.000000,-1125.000000,325.000000,-1075.000000,0.000000,"Extracted?"};
+item14[] = {"__alive_BLACK_PIRATE",4,218,-125.000000,-1125.000000,50.000000,-1050.000000,0.000000,"!alive BLACK PIRATE?"};
+item15[] = {"END_MISSION",1,250,225.000000,-1250.000000,325.000000,-1200.000000,0.000000,"END MISSION"};
+item16[] = {"Main_Side__Objective_1",2,250,-50.000000,-1250.000000,50.000000,-1200.000000,0.000000,"Main Side " \n "Objective " \n "Completed"};
+item17[] = {"__alive_MERCHANT",4,218,475.000000,-1150.000000,625.000000,-1050.000000,0.000000,"!alive MERCHANT?"};
+item18[] = {"Obj2_Completed_1",2,250,500.000000,-1300.000000,600.000000,-1250.000000,0.000000,"Obj2 Completed"};
+item19[] = {"obj2_Fail_",4,218,-175.000000,-800.000000,-75.000000,-750.000000,0.000000,"obj2 Fail?"};
+item20[] = {"Terminate_",1,250,-200.000000,-900.000000,-100.000000,-850.000000,0.000000,"Terminate "};
+item21[] = {"obj2_Fail_",4,218,650.000000,-1000.000000,750.000000,-950.000000,0.000000,"obj2 Fail?"};
+item22[] = {"Terminate__1",1,250,725.000000,-1125.000000,825.000000,-1075.000000,0.000000,"Terminate "};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {3,4};
+link4[] = {4,6};
+link5[] = {4,7};
+link6[] = {5,9};
+link7[] = {5,11};
+link8[] = {5,19};
+link9[] = {6,5};
+link10[] = {7,8};
+link11[] = {8,9};
+link12[] = {8,11};
+link13[] = {9,10};
+link14[] = {10,13};
+link15[] = {10,14};
+link16[] = {11,12};
+link17[] = {12,17};
+link18[] = {12,21};
+link19[] = {13,15};
+link20[] = {14,16};
+link21[] = {16,13};
+link22[] = {17,18};
+link23[] = {18,13};
+link24[] = {19,20};
+link25[] = {21,22};
+globals[] = {25.000000,1,0,0,0,640,480,2,77,6316128,1,-493.222137,949.016357,126.424454,-1419.855225,804,862,1};
+window[] = {2,-1,-1,-1,-1,852,88,1110,116,3,822};
+*//*%FSM</HEAD>*/
+class FSM
+{
+  fsmName = "Mission";
+  class States
+  {
+    /*%FSM<STATE "React">*/
+    class React
+    {
+      name = "React";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Informant_Found">*/
+        class Informant_Found
+        {
+          priority = 0.000000;
+          to="Obj1_Completed";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj1 == ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Obj1_Completed">*/
+    class Obj1_Completed
+    {
+      name = "Obj1_Completed";
+      init = /*%FSM<STATEINIT""">*/"_nul1 = [objNull, ObjNull, obj1, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "// assign two objectives: collect the intel, and escort the informant to safety" \n
+       "collectintelobj = player createsimpletask [""Collect the intel""]; " \n
+       "collectintelobj setsimpletaskdescription [""Get the intel from the informant"", ""Collect the intel"", """"]; " \n
+       "collectintelobj settaskstate ""Created""; " \n
+       "" \n
+       """InformantMarker"" setmarkertype ""Pickup""; " \n
+       "" \n
+       "_nul3 = [objNull, ObjNull, collectintelobj, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "InfEscort = player createsimpletask [""Escort the Informant to safety""]; " \n
+       "InfEscort setsimpletaskdescription [""Help escort the informant to a predefined safe zone for pick up. (Optional)"", ""Escort the informant to safety"", ""Safe Zone""]; " \n
+       "InfEscort settaskstate ""Created""; "/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Evidence_Collected">*/
+        class Evidence_Collected
+        {
+          priority = 0.000000;
+          to="Intel_Collected";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"player hasWeapon ""EvPhoto"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Intel_Collected">*/
+    class Intel_Collected
+    {
+      name = "Intel_Collected";
+      init = /*%FSM<STATEINIT""">*/"hint ""Files Taken. Check NOTES to see contents of files.""; " \n
+       "" \n
+       "collectintelobj settaskstate ""SUCCEEDED"";" \n
+       " " \n
+       "obj2 = player createsimpletask [""Eliminate THE MERCHANT""]; " \n
+       "obj2 setsimpletaskdescription [""Looks like the intel is solid. THE MERCHANT will be meeting another high value target that we've had on our list for a while. Kill two birds with one stone."", ""Eliminate THE MERCHANT"", """"]; " \n
+       "obj2 settaskstate ""Created"";" \n
+       " " \n
+       "mainoobj = player createsimpletask [""Eliminate BLACK PIRATE""]; " \n
+       "mainoobj setsimpletaskdescription [""Eliminating BLACK PIRATE would do use some good now. (Optional)"", ""Eliminate BLACK PIRATE"", """"]; " \n
+       "mainoobj settaskstate ""Created"";" \n
+       " " \n
+       "_nul1 = [objNull, ObjNull, obj2, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "// create files inside diary" \n
+       "_photo3 = player createDiaryRecord[""Diary"", [""Photo Three"", ""<img image='TargetPic3.JPG' width='256' height='256'/>/>""]];" \n
+       "_photo2 = player createDiaryRecord[""Diary"", [""Photo Two"", ""<img image='TargetPic2.JPG'/><br/>Yanik Gossimef (BLACK PIRATE)""]];  " \n
+       "_photo1 = player createDiaryRecord[""Diary"", [""Photo One"", ""<img image='TargetPic1.JPG'/><br/>Pao Chyang (THE MERCHANT)""]]; " \n
+       "_record = player createDiaryRecord[""Diary"", [""Document Notes:"", ""<br/>The Russians are associated with the arming of rebel forces in Chernarus. In my investigation I have uncovered the identity of two men that crop up again and again.<br/>Pao Chyang:<br/> A Vietnamese businessman who runs a food plant in Bangkok and Hanoi. In all actuality his business is a disguise for transporting weapons and arms safely across the border. He uses container ships and UN trucks to appear as though he is providing relief to conflict zones. He has strong connections to the Russian government, the KGB, Russian and Italian mafias, and some ties with the CIA as well. I have been following him for 2 years now, and he is currently residing in Chernarus for the time being. His next move is to meet the rebel leader: Yanik Gossimef at Petrovka, on Thursday, Jul 3, at 16:00. He will then be leaving the country back to Vietnam.<br/>Yanik Gossimef:<br/>Low level rebel leader and self proclaimed warlord. 28 years old. He controls one division of Green Sparrow rebels. There are multiple independant and rebel armies in the country, with some small clashes between the factions. No details to report on his past. Grew up in a small village in Belarus, moved to Russia when he was a young teen. Moved to Chernarus in 2003. Began engaging in politics and protests, eventually joined Green Sparrow. Was awarded for his loyalty and was promoted to commander. Currently the number one customer of Pao Chyang in arms.""]]; " \n
+       "" \n
+       "// delete files" \n
+       "" \n
+       "player removeweapon ""EvPhoto"";"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Informant_Evacuated">*/
+        class Informant_Evacuated
+        {
+          priority = 0.000000;
+          to="Informant_move_";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate InfEscort == ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "__alive_Informant">*/
+        class __alive_Informant
+        {
+          priority = 0.000000;
+          to="Fail_InfEscort_M";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive target"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Fail_InfEscort_M">*/
+    class Fail_InfEscort_M
+    {
+      name = "Fail_InfEscort_M";
+      init = /*%FSM<STATEINIT""">*/"InfEscort settaskstate ""Failed""; " \n
+       "_nul4 = [objNull, ObjNull, InfEscort, ""FAILED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; "/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "__alive_BLACK_PIRATE">*/
+        class __alive_BLACK_PIRATE
+        {
+          priority = 0.000000;
+          to="Main_Side__Objective";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetB"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "obj2_Fail_">*/
+        class obj2_Fail_
+        {
+          priority = 0.000000;
+          to="Terminate_";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj2 == ""FAILED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "__alive_MERCHANT">*/
+        class __alive_MERCHANT
+        {
+          priority = 0.000000;
+          to="Obj2_Completed";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetA"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Informant_move_">*/
+    class Informant_move_
+    {
+      name = "Informant_move_";
+      init = /*%FSM<STATEINIT""">*/"[target] join grpnull; " \n
+       "target assignascargo ExtractChopper; " \n
+       "[target] ordergetin true; " \n
+       "_nul4 = [objNull, ObjNull, InfEscort, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "target kbTell [sniper, ""mainmission"", ""InformantSafe""];"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "__alive_BLACK_PIRATE">*/
+        class __alive_BLACK_PIRATE
+        {
+          priority = 0.000000;
+          to="Main_Side__Objective";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetB"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "__alive_MERCHANT">*/
+        class __alive_MERCHANT
+        {
+          priority = 0.000000;
+          to="Obj2_Completed";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetA"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Obj2_Completed">*/
+    class Obj2_Completed
+    {
+      name = "Obj2_Completed";
+      init = /*%FSM<STATEINIT""">*/"obj2 settaskstate ""SUCCEEDED""; " \n
+       "_nul1 = [objNull, ObjNull, obj2, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "obj3 = player createsimpletask [""Extract""]; " \n
+       "obj3 setsimpletaskdescription [""Proceed to the extraction point on the map"", ""Extract"", ""Extraction""]; " \n
+       "obj3 settaskstate ""CREATED""; " \n
+       "" \n
+       "_nul1 = [objNull, ObjNull, obj3, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       """ExtractionMarker"" setmarkertype ""pickup"""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "__alive_BLACK_PIRATE">*/
+        class __alive_BLACK_PIRATE
+        {
+          priority = 0.000000;
+          to="Main_Side__Objective_1";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetB"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "Extracted_">*/
+        class Extracted_
+        {
+          priority = 0.000000;
+          to="END_MISSION";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj3 ==  ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Main_Side__Objective">*/
+    class Main_Side__Objective
+    {
+      name = "Main_Side__Objective";
+      init = /*%FSM<STATEINIT""">*/"mainoobj settaskstate ""SUCCEEDED"";" \n
+       "_nul1 = [objNull, ObjNull, mainoobj, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       ""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "obj2_Fail_">*/
+        class obj2_Fail_
+        {
+          priority = 0.000000;
+          to="Terminate__1";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj2 == ""FAILED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+        /*%FSM<LINK "__alive_MERCHANT">*/
+        class __alive_MERCHANT
+        {
+          priority = 0.000000;
+          to="Obj2_Completed_1";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"!alive TargetA"/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "END_MISSION">*/
+    class END_MISSION
+    {
+      name = "END_MISSION";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Main_Side__Objective_1">*/
+    class Main_Side__Objective_1
+    {
+      name = "Main_Side__Objective_1";
+      init = /*%FSM<STATEINIT""">*/"mainoobj settaskstate ""SUCCEEDED"";" \n
+       "_nul1 = [objNull, ObjNull, mainoobj, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       ""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Extracted_">*/
+        class Extracted_
+        {
+          priority = 0.000000;
+          to="END_MISSION";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj3 ==  ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Obj2_Completed_1">*/
+    class Obj2_Completed_1
+    {
+      name = "Obj2_Completed_1";
+      init = /*%FSM<STATEINIT""">*/"obj2 settaskstate ""SUCCEEDED""; " \n
+       "_nul1 = [objNull, ObjNull, obj2, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "obj3 = player createsimpletask [""Extract""]; " \n
+       "obj3 setsimpletaskdescription [""Proceed to the extraction point on the map"", ""Extract"", ""Extraction""]; " \n
+       "obj3 settaskstate ""CREATED""; " \n
+       "" \n
+       "_nul1 = [objNull, ObjNull, obj3, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       """ExtractionMarker"" setmarkertype ""pickup"""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Extracted_">*/
+        class Extracted_
+        {
+          priority = 0.000000;
+          to="END_MISSION";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj3 ==  ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Terminate_">*/
+    class Terminate_
+    {
+      name = "Terminate_";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Terminate__1">*/
+    class Terminate__1
+    {
+      name = "Terminate__1";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+  };
+  initState="React";
+  finalStates[] =
+  {
+    "END_MISSION",
+    "Terminate_",
+    "Terminate__1",
+  };
+};
+/*%FSM</COMPILE>*/

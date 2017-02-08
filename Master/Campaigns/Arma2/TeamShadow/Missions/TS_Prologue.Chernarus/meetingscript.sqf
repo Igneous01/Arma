@@ -1,0 +1,395 @@
+// Meeting Script v1.0 by DZ
+// Simplifies the task of making a meeting and accounts for all possible outcomes of the meeting
+
+// how to use:
+// null = [unita, unitb, meetpos, "animA", "animB", ExitA, ExitB, StartTime, MeetingTime] execVM "meetscript.sqf"
+// unitA/unitB - the units you are dealing with (make sure they are group leaders)
+// meetpos - the name of a gamelogic (but can be any other object as well)
+// animA/animB - The movename to play. ex "ActsPercMstpSnonWunaDnon_sceneNikitinDisloyalty_Nikitin" - make sure the quotes are inbetween the movename
+// ExitA/ExitB - the names of gamelogics (or any object) for the units to leave/escape to
+// StartTime - The amount of time to wait before the units will move to the meeting area
+// Meetingtime - the amount of time the meeting will last
+
+// To synchronize the meeting with waypoints:
+// call the script within the act field of a waypoint. but change "null" to a more meaninful name ex. "meetinghandle"
+// add another waypoint thats right beside the first one
+// in the condition field put : ScriptDone meetinghandle
+// add whatever other waypoints u want the unit to go to after the meeting has ended and they reached the final position.
+
+// To make one unit go to meet another one, without the other unit moving:
+// null = [unita, unitb, unita, "animA", "animB", ExitA, ExitB, StartTime, MeetingTime] execVM "meetscript.sqf"
+// where meetpos becomes the name of the unit you want to wait.
+
+private ["_unitA", "_unitB", "_meetpos", "_animA", "_animB", "_exposA", "_exposB", "_starttime", "_meettime", "_unitarray", "_nearmeethandleA", "_nearmeethandleB", "_Avehiclehandle", "_Bvehiclehandle", "_Aspookhandle", "_Bspookhandle", "_Animhandle", "_Bnimhandle", "_timerhandle"];
+_unitA = _this select 0;
+_unitB = _this select 1;
+_meetpos = _this select 2;
+_animA = _this select 3;
+_animB = _this select 4;
+_exposA = _this select 5;
+_exposB = _this select 6;
+_starttime = _this select 7;
+_meettime = _this select 8;
+_unitA setVariable ["status", 0];
+_unitB setVariable ["status", 0];
+_unitA setVariable ["invehicle", 0];
+_unitB setVariable ["invehicle", 0];
+_unitA setVariable ["vehiclename", assignedVehicle _unitA];
+_unitB setVariable ["vehiclename", assignedVehicle _unitB];
+
+_unitarray = [_unitA, _unitB];
+
+// Possible values for status
+// 0 - Default State, safe
+// 1 - Unit is ready and is performing meeting, safe
+// 2 - Units have finished their meeting and are going back, safe
+// 3 - Unit is retreating due to enemy spotted, shots fired, wounded, etc, notsafe
+// 4 - Unit has reached final destination, end script
+
+// Delay script until startime 
+sleep _starttime;
+
+// FUNCTIONS
+
+// Near Position Function
+if (isnil "FNC_DZ_Near") then {  
+    FNC_DZ_Near = {
+        private ["_unit", "_pos", "_dist", "_unitgroup", "_unitgrouplist", "_vehicleunits"];
+        _unit = _this select 0;
+        _pos = _this select 1;
+        _unitgroup = group _unit;
+        _unitgrouplist = units _unitgroup;
+        
+        // calculate distance to meeting position if in defualt state
+        if ((_unit getVariable "status") == 0) then {
+            while {(_unit getVariable "status") == 0} do {
+                _dist = _unit distance _pos;
+                
+                // check if the unit is in a vehicle before determining what distance to check, if the unit has a driver and gunner assigned, these units will not leave the vehicle
+                
+                // if unit is in a helicopter
+                if ((_unit getVariable "invehicle") == 1 && vehicle _unit isKindOf "Helicopter" && _dist < 180) then {
+                    
+                    // if a gunner exists for the vehicle
+                    if (isnull assignedGunner (_unit getVariable "vehiclename")) then {
+                        _vehicleunits = [assignedDriver (_unit getVariable "vehiclename")];
+                    } else {
+                        _vehicleunits = [assignedDriver (_unit getVariable "vehiclename"), assignedGunner (_unit getVariable "vehiclename")];
+                    };
+                    _unitgrouplist = _unitgrouplist - _vehicleunits;
+                    _unitgrouplist orderGetIn false;
+                    // land helicopter
+                    (_unit getVariable "vehiclename") land "Land";
+                    // stop the pilot from staying in formation
+                    
+                    // wait until the pilot has landed, the pilot is dead, the group has detected enemy, or the unit is dead
+                    waituntil {unitReady assignedDriver (_unit getVariable "vehiclename") or _unit getVariable "status" == 3 or !alive _unit or !alive assignedDriver (_unit getVariable "vehiclename")};
+                    
+                    // if the pilot is ready, proceed with unloading units
+                    if (unitReady assignedDriver (_unit getVariable "vehiclename")) then {
+                        sleep 10;
+                        // wait until the unit is out of the chopper
+                        waitUntil {vehicle _unit == _unit or !alive _unit or (_unit getVariable "status") == 3 };
+                        if (!alive _unit) then {
+	                        _unit setVariable ["status", 3];
+	                  };
+                        _unitgroup setSpeedMode "LIMITED";
+                        _unit setVariable ["invehicle", 0];  
+                    };
+                    // if the pilot/unit is dead or enemies have been detected, abort the landing
+                    if (_unit getVariable "status" == 3 or !alive _unit or !alive assignedDriver (_unit getVariable "vehiclename")) then {
+                        (_unit getVariable "vehiclename") land "NONE";
+                        _unit setVariable ["status", 3];
+                        _unitgrouplist orderGetIn true;
+                    };
+                };
+                
+                // If the unit is in a land vehicle
+                if ((_unit getVariable "invehicle") == 1 && vehicle _unit isKindOf "LandVehicle" && _dist < 45) then {
+                    
+                    // if a gunner exists for the vehicle
+                    if (isnull assignedGunner (_unit getVariable "vehiclename")) then {
+                        _vehicleunits = [assignedDriver (_unit getVariable "vehiclename")];
+                    } else {
+                        _vehicleunits = [assignedDriver (_unit getVariable "vehiclename"), assignedGunner (_unit getVariable "vehiclename")];
+                    };
+                    
+                    _unitgrouplist = _unitgrouplist - _vehicleunits;
+                    _unitgrouplist orderGetIn false;
+                    waitUntil {(vehicle _unit == _unit) or !alive _unit or (_unit getVariable "status") == 3 };
+                    
+                    // if the driver/unit is dead or enemies detected abort getting out
+                    if (_unit getVariable "status" == 3 or !alive _unit or !alive assignedDriver (_unit getVariable "vehiclename")) then {
+                        _unit setVariable ["status", 3];
+                    } 
+                    // if everything is okay
+                    else {
+                        _unitgroup setSpeedMode "LIMITED";
+                        _unit setVariable ["invehicle", 0];
+                    };
+                };
+                // check the distance the units needs to be in in order to be ready for the meeting
+                if (_dist < 6) then {
+                    _unit setVariable ["status", 1];
+                };
+                sleep 0.5;
+            };
+        };
+    };  
+};
+
+// Function to check if units were assigned a vehicle, and move them inside the vehicle if they are not in it
+if (isnil "FNC_DZ_VehicleStatus") then {
+    FNC_DZ_VehicleStatus = {
+        private ["_unit", "_vehiclename", "_unitgrouplist", "_driver", "_gunner", "_unitcowards", "_unitdefenders", "_groupdefenders"];
+        _unit = _this select 0;
+        _vehiclename = _unit getVariable "vehiclename";
+        _unitgrouplist = units group _unit;
+        
+
+        // if the unit has no vehicle
+        if (isNull _vehiclename) then {
+            _unit setVariable ["invehicle", 0];
+        }
+        // if the unit has a vehicle
+        else { 
+            _driver = assignedDriver _vehiclename;
+            
+            // check if gunner exists
+            if (isnull (assignedGunner _vehiclename)) then {
+                _gunner = nil;
+                _unitcowards = [_unit, _driver];
+            } else {
+                _gunner = assignedGunner _vehiclename;
+                _unitcowards = [_unit, _driver, _gunner];
+            };
+            
+            // prepare to split groups if enemy detected
+            _unitdefenders = _unitgrouplist - _unitcowards;
+            
+            // if the unit is in the vehicle
+            if (_unit in (_unit getVariable "vehiclename")) then {
+                (group _unit) setSpeedMode "NORMAL";
+                _unit setVariable ["invehicle", 1];               
+            } 
+            // if not in vehicle check for further parameters
+            else {
+                // if unit has detected enemy or is under fire
+                if ((_unit getVariable "status") == 3 or !alive _unit) then {
+                    
+                    // split group to make guards defend the units escape
+                    _unitdefenders join grpnull;
+                    {unassignVehicle _x} foreach _unitdefenders;
+                    _groupdefenders = group (_unitdefenders select 0);
+                    _unitdefenders join _groupdefenders;
+                    [_unit] ordergetin true;
+                    
+                    // wait until the unit is in the vehicle or is not alive or vehicle is immobile
+                    waitUntil {(_unit in (_unit getVariable "vehiclename")) or (!alive _unit) or (!alive _driver) or !(canMove (_unit getVariable "vehiclename"))}; 
+                    
+                    // if unit in vehicle
+                    if ((_unit in (_unit getVariable "vehiclename"))) then {
+                        _unit setVariable ["invehicle", 1];
+                    } 
+                    // if unit not in vehicle
+                    else {
+                        _unit setVariable ["invehicle", 0];
+                        [_unit] ordergetin false;
+                    };
+                    
+                    // once in vehicle make the ai avoid combat and quickly escape
+                    (group _unit) setSpeedMode "FULL";
+                    (group _unit) setCombatMode "GREEN";
+                }
+                // if the unit has not detected any enemies and is not in any danger
+                else {
+                    _unitgrouplist orderGetIn true;
+                    // waituntil the unit is in the vehicle or is not alive or vehicle destroyed
+                    waitUntil {(_unit in (_unit getVariable "vehiclename")) or !alive _unit or !alive _driver};
+                    if ((_unit in (_unit getVariable "vehiclename"))) then {
+                        _unit setVariable ["invehicle", 1];
+                        (group _unit) setSpeedMode "NORMAL";
+                    } else {
+                        _unit setVariable ["invehicle", 0];
+                        [_unit] ordergetin false;
+                        (group _unit) setSpeedMode "FULL";
+                    };
+                };
+            };
+        };
+    };
+};
+
+// Timer Function
+if (isnil "FNC_DZ_Timer") then {
+    FNC_DZ_Timer = {
+    private ["_timeleft"];
+    _timeleft = _this select 0;
+        while {_timeleft > 0} do {
+        sleep 1;
+            _timeleft = _timeleft - 1;
+        };
+    };
+};
+
+// Function to check if units have been spooked
+if (isnil "FNC_DZ_Spooked") then {
+    FNC_DZ_Spooked = {
+        private ["_unit", "_unitA", "_unitB", "_unitgroup", "_unitside", "_enemygroups", "_enemy"];
+        _unit = _this select 0;
+        _unitA = _this select 1;
+        _unitB = _this select 2;
+        _unitgroup = group _unit;
+        _unitside = side _unit;
+        
+        // Check Faction of unit, and consider all groups that are enemy of him, then check and update all enemies around them
+        switch (_unitside) do {
+            case EAST: {
+                _enemy = west;
+            };
+            case WEST: {
+                _enemy = east;
+            };
+            case resistance: {
+                private ["_isenemy"];
+                _isenemy = _unitside getfriend east;
+                if (_isenemy < 0.6) then {
+                    _enemy = east;
+                };
+                _isenemy = _unitside getfriend west;
+                if (_isenemy < 0.6) then {
+                    _enemy = west;
+                } else {
+                    _enemy = nil;
+                    hint "Error: Unit has no enemies";
+                };
+            };
+        };
+        
+        // update area and check for units
+        while {(_unit getVariable "status") != 3} do {
+            _enemygroups = nearestObjects [getpos _unit, ["Man","Tank", "Air", "Car"], 500]; 
+            {if (side _x == _enemy) then {
+                if (_unitgroup knowsabout _x > 0.5) then {
+                    _unitA setVariable ["status", 3];
+                    _unitB setVariable ["status", 3];
+                    _unitgroup setbehaviour "DANGER";
+                };
+            };
+        } forEach _enemygroups;
+        sleep 1;
+    };
+    
+};
+};
+
+// PROCEDURES
+
+// Setting default values and moving units to position
+
+// wait until the check for unit vehicle is completed
+_Avehiclehandle = [_unitA] spawn FNC_DZ_VehicleStatus;
+waitUntil {(scriptDone _Avehiclehandle)};
+_Bvehiclehandle = [_unitB] spawn FNC_DZ_VehicleStatus;
+waitUntil {(scriptDone _Bvehiclehandle)};
+
+{_x Move (getpos _meetpos); _x setSpeedMode "LIMITED"; _x setBehaviour "SAFE"} foreach _unitarray;
+
+// spawning function for units
+_nearmeethandleA = [_unitA, _meetpos] spawn FNC_DZ_Near;
+_nearmeethandleB = [_unitB, _meetpos] spawn FNC_DZ_Near;
+
+
+// adding spooked function to units
+_Aspookhandle = [_unitA, _unitA, _unitB] spawn FNC_DZ_Spooked;
+_Bspookhandle = [_unitB, _unitA, _unitB] spawn FNC_DZ_Spooked;
+
+// Waituntil unit is out of default state
+waitUntil {((_unitA getVariable "status") != 0 and (_unitB getVariable "status") != 0) or !alive _unitA or !alive _unitB};
+
+// main loop
+    
+// if Both units are at the meeting position and are both ready
+if ((_unitA getVariable "status") == 1 && (_unitB getVariable "status") == 1)  then {
+    _unitA dowatch _unitB;
+    _unitB dowatch _unitA;
+    sleep 1.5;
+    //{_x disableai "MOVE"} foreach _unitarray;
+    
+    // play animations
+    _Animhandle = [_unitA, _animA] execVM "animation.sqf";
+    _Bnimhandle = [_unitB, _animB] execVM "animation.sqf";
+    _timerhandle = [_meettime] spawn FNC_DZ_Timer;
+    
+    // stop playing animation when the timer runs out, the unit is not alive, or unit is no longer ready for meeting
+    waitUntil {scriptDone _timerhandle or (_unitA getVariable "status") != 1 or (_unitB getVariable "status") != 1 or !alive _unitA or !alive _unitB};
+    terminate _Animhandle;
+    terminate _Bnimhandle;
+    terminate _timerhandle;
+    {_x playMoveNow "AmovPercMstpSlowWrflDnon"; _x switchMove ""} foreach _unitarray;
+    
+    // if the timer script finished successfully, that means no threat was detected during the meeting, proceed to status 2 and exit casually
+    if (scriptDone _timerhandle) then {
+        //{_x enableAI "MOVE"} forEach _unitarray;
+        _unitA setVariable ["status", 2]; 
+        _unitB setVariable ["status", 2];
+    } 
+    // if the timer was not successfully completed, then the meeting was interrupted. proceed to status 3 and exit cautiously
+    else {
+        //{_x enableAI "MOVE"} forEach _unitarray;
+        _unitA setVariable ["status", 3]; 
+        _unitB setVariable ["status", 3];
+    };
+};
+
+// if the Units have finished their meeting
+if ((_unitA getVariable "status") == 2 && (_unitB getVariable "status") == 2) then {
+    _unitA Move (getpos _exposA);
+    _unitB Move (getpos _exposB);
+    {_x setSpeedMode "LIMITED"; _x setBehaviour "SAFE"} foreach _unitarray;
+    _Avehiclehandle = [_unitA] spawn FNC_DZ_VehicleStatus;
+    _Bvehiclehandle = [_unitB] spawn FNC_DZ_VehicleStatus;
+    // wait until the check for unit vehicle is completed
+    waitUntil {(scriptDone _Avehiclehandle) && (scriptDone _Bvehiclehandle)};
+};
+
+// if one or both units are scared off
+if ((_unitA getVariable "status") == 3 or (_unitB getVariable "status") == 3) then {
+    // terminate all unneccessary scripts
+    terminate _Aspookhandle;
+    terminate _Bspookhandle;
+    terminate _nearmeethandleA;
+    terminate _nearmeethandleB;
+    terminate _Animhandle;
+    terminate _Bnimhandle;
+    _unitA Move (getpos _exposA);	
+    _unitB Move (getpos _exposB);	
+    _Avehiclehandle = [_unitA] spawn FNC_DZ_VehicleStatus;
+    _Bvehiclehandle = [_unitB] spawn FNC_DZ_VehicleStatus;
+    {_x setSpeedMode "FULL"} foreach _unitarray;
+    // wait until the check for unit vehicle is completed
+    waitUntil {(scriptDone _Avehiclehandle) && (scriptDone _Bvehiclehandle)};
+};
+
+// create variables to check for unit(s) distance to final destination
+private ["_distA", "_distB"];
+_distA = _unitA distance _exposA;
+_distB = _unitB distance _exposB;
+
+// continue looping until a unit has reached final destination, or is no longer alive
+while {((_unitA getVariable "status") != 4) && ((_unitB getVariable "status") != 4)} do {
+    _distA = _unitA distance _exposA;
+    _distB = _unitB distance _exposB;
+    if ((_distA < 100)  or (!alive _unitA)) then {
+        _unitA setVariable ["status", 4];
+    };
+    if ((_distB < 100) or (!alive _unitB)) then {
+        _unitB setVariable ["status", 4];
+    };
+    sleep 3;
+};
+    
+terminate _Avehiclehandle;
+terminate _Bvehiclehandle;
+terminate _Aspookhandle;
+terminate _Bspookhandle

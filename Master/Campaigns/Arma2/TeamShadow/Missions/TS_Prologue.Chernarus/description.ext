@@ -1,0 +1,35 @@
+onLoadMission = "Stalking Examination"; // the text that will be shown while the mission loads
+OnLoadMissionTime = true; // show the mission time when mission loads
+
+
+showCompass=1;
+showRadio=0;
+showGPS=1;
+showMap=1;
+showNotepad=1;
+showWatch=1;
+debriefing=1;
+
+
+
+class CfgSounds
+{
+ sounds[] = {};
+  class hollow1
+  {
+   name = "Nature_Hollow";   // how the sound is referred to in the editor (e.g. trigger effects)
+   sound[] = {"Cutscene Intro.ogg", 1, 1};   // filename, volume, pitch
+   titles[] = {};
+  };
+};
+
+class CfgMusic
+{
+ tracks[]={};
+
+ class HollowIntro
+ {
+  name = "Hollow_Nature";
+  sound[] = {"Intro Music.ogg", db+0, 1.0};
+ };
+};

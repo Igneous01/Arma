@@ -1,0 +1,6 @@
+
+
+finishmissioninit;
+
+
+execVM "briefing.sqf";

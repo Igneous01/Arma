@@ -1,0 +1,3 @@
+add marker for obj3 description
+optional objective marker not showing up on map "wrong variable name"
+end mission trigger not firing off when conditions met

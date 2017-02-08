@@ -1,0 +1,67 @@
+Practice Run--
+
+
+The user is free to fire off as many rounds on the popups as he wishes with no penalties to score or accuracy.
+-- in the future bullet cam will be added
+
+
+
+
+Test 1 - Time Attack
+
+
+The user will have 60 seconds to find and hit as many targets as he can out of 10. User only has 10 rounds to fire.
+
+Targets will be at various ranges 400m max diameter
+
+scoring will be based on accuracy and number of targets hit
+
+6/10 targets
+
+
+min points = 0
+minimum to pass = 60
+max points = 100
+
+Test 2 - Range Test
+
+
+The user will start this test at 300m, he will only have 1 attempt for each range. if he scores a hit at that particular range, the range is adjusted +100m
+range maxes out at 1000m (or 1200m depeneding on map space)
+
+scoring-
+
+300 - 10
+400 - 20
+500 - 30
+600 - 40
+700 - 50
+800 - 60
+900 - 70
+1000 - 80
+
+min points = 0 (missed first shot)
+minimum to pass = 40 (600m)
+max points = 80
+
+
+Test 3 - One Shot One Kill
+
+
+obj classnames "
+firing_range_targets8
+firing_range_targets1
+firing_range_targets2
+
+The user will be confronted by 3 separate targets, where he will only have 1 shot to hit the target and get a score. The shots are fairly complicated and should challange patience and accuracy.
+
+scoring-
+
+0 targets hit - 0
+1 targets hit - 100
+2 targets hit - 200
+3 targets hit - 300
+
+
+minimum number of points to pass the firing range test = 200 points overall
+

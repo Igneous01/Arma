@@ -1,0 +1,86 @@
+/*%FSM<COMPILE "C:\Program Files\Bohemia Interactive\Tools\FSM Editor Personal Edition\scriptedFSM.cfg, vsniper">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"React",0,250,-200.000000,-200.000000,-100.000000,-150.000000,0.000000,"React"};
+item1[] = {"Informant_Found",4,218,-25.000000,-225.000000,150.000000,-125.000000,0.000000,"Informant Found?"};
+item2[] = {"Obj1_Completed",2,250,25.000000,-375.000000,125.000000,-325.000000,0.000000,"Obj1 Completed"};
+item3[] = {"Evidence_Collected",4,4314,200.000000,-375.000000,325.000000,-275.000000,0.000000,"Evidence Collected?"};
+item4[] = {"____FAKE____",9,160,0.000000,0.000000,0.000000,0.000000,0.000000,"____FAKE____"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {3,4};
+globals[] = {25.000000,1,0,0,0,640,480,2,53,6316128,1,-267.434265,372.316040,25.831406,-606.582397,630,862,1};
+window[] = {2,-1,-1,-1,-1,881,110,1132,145,3,648};
+*//*%FSM</HEAD>*/
+class FSM
+{
+  fsmName = "vsniper";
+  class States
+  {
+    /*%FSM<STATE "React">*/
+    class React
+    {
+      name = "React";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Informant_Found">*/
+        class Informant_Found
+        {
+          priority = 0.000000;
+          to="Obj1_Completed";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"taskstate obj1 == ""SUCCEEDED"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "Obj1_Completed">*/
+    class Obj1_Completed
+    {
+      name = "Obj1_Completed";
+      init = /*%FSM<STATEINIT""">*/"_nul1 = [objNull, ObjNull, obj1, ""SUCCEEDED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; " \n
+       "" \n
+       "// assign two objectives: collect the intel, and escort the informant to safety" \n
+       "collectintelobj = player createsimpletask [""Collect the intel""]; " \n
+       "collectintelobj setsimpletaskdescription [""Get the intel from the informant"", ""Collect the intel"", """"]; " \n
+       "collectintelobj settaskstate ""Created""; " \n
+       "_nul3 = [objNull, ObjNull, collectintelobj, ""CREATED""] execVM ""CA\Modules\MP\data\scriptCommands\Taskhint.sqf""; "/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+        /*%FSM<LINK "Evidence_Collected">*/
+        class Evidence_Collected
+        {
+          priority = 0.000000;
+          to="____FAKE____";
+          precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+          condition=/*%FSM<CONDITION""">*/"sniper hasWeapon ""EvPhoto"" || spotter hasWeapon ""EvPhoto"""/*%FSM</CONDITION""">*/;
+          action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+        };
+        /*%FSM</LINK>*/
+      };
+    };
+    /*%FSM</STATE>*/
+    /*%FSM<STATE "____FAKE____">*/
+    class ____FAKE____
+    {
+      name = "____FAKE____";
+      init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+  };
+  initState="React";
+  finalStates[] =
+  {
+  };
+};
+/*%FSM</COMPILE>*/

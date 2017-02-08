@@ -1,0 +1,12 @@
+primemark1 = createMarker ["pm1", (getpos m1)]; 
+"pm1" setMarkerColor "ColorRed"; 
+"pm1" setMarkerText "Possible Artillery position"; 
+"pm1" setMarkerType "Unknown"; 
+primemark2 = createMarker ["pm2", (getpos m2)]; 
+"pm2" setMarkerColor "ColorRed"; 
+"pm2" setMarkerText "Possible Artillery position"; 
+"pm2" setMarkerType "Unknown"; 
+primemark3 = createMarker ["pm3", (getpos m3)]; 
+"pm3" setMarkerColor "ColorRed"; 
+"pm3" setMarkerText "Possible Artillery position"; 
+"pm3" setMarkerType "Unknown";

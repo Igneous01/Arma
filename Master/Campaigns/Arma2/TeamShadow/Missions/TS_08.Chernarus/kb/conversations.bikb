@@ -1,0 +1,140 @@
+class Sentences
+{
+
+	class InfFriendTalk01
+	{
+		text = "You seek the informant?";
+		speech[] = {};
+		class Arguments {};
+		
+	};
+
+	class InfFriendTalk02
+	{
+		text = "Very well. I can take you to him. But first I must ask for something in return.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+	
+	class InfFriendTalk03
+	{
+		text = "There is a suitcase that was lost somewhere in this area. The contents inside the case are extremely valuable to me. I want you to find it and bring it back to me. Then I will take you to him.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+	
+	class InfFriendTalkRefusal
+	{
+		text = "Very well then, you'll just have to find him on your own.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+	
+	class InfFriendTalkAccepted
+	{
+		text = "I appreciate your help. Bring the case back to me and I will take you to him.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+
+        class InfFriendTalkSucceeded
+	{
+		text = "Good to see your back and with the case. I appreciate your help. As promised, I will take you to him. Follow me.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class InfFriendTalkDestination
+	{
+		text = "Ok, we're here. He should be waiting at the dam over there. I'll be taking my leave now.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class InfFriendTalkStayHere
+	{
+		text = "What do you mean by that? It looks safe to me. Fine, if your going be so threatening about it, Ill go talk with him first to make sure its clear.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+	
+	class SniperTalk01
+	{
+		text = "Yes, can you take us to him?";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class SniperTalk02
+	{
+		text = "What do you want?";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class SniperTalkAccept
+	{
+		text = "Alright, we'll find it for you.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class SniperTalkRefuse
+	{
+		text = "Do I look like the lost & found to you?";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class SniperTalkLetGo
+	{
+		text = "Fine. Thank you";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class SniperTalkStayHere
+	{
+		text = "Your not going anywhere, this area looks suspicious for a meeting place. I want you to go down there and speak with him first.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+	class InformantAlive
+	{
+		text = "Good to see you, I have the neccessary files you need. The arms dealer's photo and all neccessary information is in this book. Take it. Now get me out of here.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+        class InformantSafe
+	{
+		text = "Thank you for helping me, Pao Chyang will be there today. If you are looking for the chance to take him out, now is the time. And stay away from the main roads, the Russians have set up roadblocks all around the area.";
+		speech[] = {};
+		class Arguments {};
+		
+	}
+
+
+		
+};
+class Arguments{};
+class Special{};
+startWithVocal[] = {hour};
+startWithConsonant[] = {europe, university};

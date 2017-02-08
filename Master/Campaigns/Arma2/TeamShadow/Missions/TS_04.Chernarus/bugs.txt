@@ -1,0 +1,21 @@
+1. ACM not working properly
+2. Escape chernarus trigger not working
+3. pathing issues for units inside city
+4. USPS not attaching to artillery for patrol
+5. Garbage module deleting wrong units??
+
+
+
+
+tweaks:
+
+1. Spread fighting on northeast and west sides of city.
+
+2. Add airsupport
+
+3. remove nvgoggles
+
+4. add laser designator and unhide map markers when meeting spotter
+
+5. Add random snipers around target areas.
+

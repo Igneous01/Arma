@@ -1,0 +1,116 @@
+*****US Army Sniper Field Manual*****
+
+====THIS IS A GUIDE AND FAQ TO EXPLAIN SOME ASPECTS AND FEATURES IN THE CAMPAIGN====
+
+
+Firstly, thank you for playing and supporting this campaign, it means alot to me and inspires me to contribute more content to the community.
+This campaign tries to focus on realism, and hence it might be very difficult in the beginning for you if you are not comfortable with sniping in ACE.
+Here are some guides to look into on understanding sniping in ACE, as well as improving your skill with the deadliest weapon a marksman can hold.
+
+http://www.youtube.com/watch?v=TQny-ehnXHc - Basics of taking the shot in ACE
+http://www.armaholic.com/page.php?id=12346 - Sniper Operations Manual and guide for ACE
+http://ace.dev-heaven.net/wagn/Guides#Introduction. - Marksmanship guide
+
+
+********************explanation of features:
+
+note: currently only the sniper has access to the radio commands (this will be fixed in future version)
+
+
+
+*******radio 0-0-1 to 0-0-2 (Disable AI Movement ON/OFF)******************
+
+- When this is toggled on, your ai teammate will become immobile, and will not move until this is toggled off.
+
+- This is particularly useful for certain situations where an enemy patrol is likely to walk by your position (assuming you are well hidden behind a tree or bush)
+as it stops your spotter ai from moving and rotating and thus concealing your position (however he will still like to switch between binocs and his weapon, so be aware)
+
+- Another use for this is when you want to move your units into specific positions (hiding spots behind trees/Setting up Spotting Scope) as the ai will be immobile and
+free to your bidding.
+
+
+
+*******radio 0-0-3 to 0-0-4 (AI Never Fire ON/OFF)*************************
+
+- when this is toggled on, both units will have a red slash through their picture, indicating they will never fire. Useful for when you want to teamswitch without 
+engaging the AI, as well as setting up the spotting scope with/out spotting mode, getting your spotter unstuck in pathing, and generally more freedom controlling
+your units without having to worry about your stealth being compromised
+
+
+
+*******radio 0-0-5 to 0-0-6 (Spotting Mode ON/OFF)*******************
+
+- when this is toggled on, your spotter will immediatly freeze and become immobile. If you as the sniper fire a shot while in this mode, you will instantly teamswitch to 
+your spotter and will be looking down the scope of his weapon/spotting scope. This is a good helper in those long range shots where you might not be able to see the dust 
+from the bullet if it misses, allowing you the possibility to recalculate your shot much more accuratly.
+
+
+*******************************************************************
+- To properly set up spotting mode (as it was designed and intended)
+
+1. First make sure you have your target you are going to be shooting at and that you have your firing position already setup. Recommended positioning is having the spotter
+right beside the sniper at waist length (spotters head at snipers waist or shoulder) as close as possible 
+
+note: Its recommended you turn on ai never fire here, so that the ai doesnt engage when you switch
+
+2. Switch to your spotter, and with the ace action menu place the spotting scope down, and get in it. (the spotting scope should be about the waist/shoulder of the sniper, 
+firmly tucked in and hugging him as close as you can) this ensures that you are positioned in such a way that the spotting scope and the scope of the sniper rifle will follow 
+the same line of trajectory. Ensuring the most accurate follow through on your shot.
+
+3. Adjust yourself in the spotting scope so that you have visual of your target, as well as a good visual of the area around the target (to watch for dust trails)
+
+4. switch back to your sniper
+
+5. use the radio command (0-0-5) to enable spotting mode
+
+6. Prep yourself for the shot
+
+7. Fire
+
+8. Teamswitch again to retake your shot
+
+Result: The moment you fire, you will instantly teamswitch to your spotter, and will be staring down the sights of the spotting scope. This gives you a much better visual
+for long range shots, allowing you to correct your adjustments and quickly follow up with a second shot.
+
+- To disable spotting mode, make sure you are the sniper unit (so that the radio commands are available), and use 0-0-6 to turn it off. Your spotter will become mobile again,
+allowing you to control him and give him orders
+
+
+
+******Scroll Action - "Range Me"******************
+
+- When this action is used, a sidechat will come up giving you the range to whatever you may be pointing at in metres
+
+limitations of this feature:
+
+- You cannot use it on open ground, it will not provide a reading, or give you an absurd reading (like 14000m)
+
+- You can use it on buildings, provided you are aware of that the buildings are there (player knowsabout)
+
+- If you are pointing at a target (vehicle, man) and a proper range doesnt come up like the example above, it is because the player ai (that keeps track of contacts)
+doesnt know someone is there. You must first reveal the object in order for the range me action to work properly. Otherwise the ai thinks you are pointing at the ground.
+
+
+
+
+******radio 0-0-7 (Player Behaviour Stealth)
+
+- This action changes the behaviour of the sniper back to stealth, incase the behaviour was changed and you want the player ai to behave in stealth mode and whisper in radio comms.
+
+
+
+
+===========================FREQUENTLY ASKED QUESTIONS=================================
+
+1. In mission Three (Becoming a HOG), i am not issued a weapon when the mission starts.
+A. It is because the gear is available at the briefing screen, you need to go to units, and click on gear to select your loadout. All missions after 3 work this way.
+
+2. In Mission Five (Red October), the plane doesnt drop any bombs when i am lasing the target and leaves the area?
+A. This is a problem that resides with AI pilots and laser targets, sometimes they will drop bombs, other times, do nothing. However there are some solutions to getting this to work:
+a) When first using airsupport, click somewhere "below" where you want the bombs to drop. The plane always flies in from the south, so marking the location a little bit south of where
+you want it will allow the aircraft to complete its waypoint first, and then be more likely to drop the bombs on the laser target. 
+b) Depending on where you are pointing the laser, and the aircrafts direction, any large terrain or objects may block Line of sight between the laser target and the pilot. Make sure
+that the laser target is in an area where the pilot will be able to lock on to it and drop his payload.
+c) if all else fails, there are a few satchels and c4 available in the crate to deal with the pilots stupidity
+
+
