@@ -28,7 +28,7 @@
 private ["_arg_types", "_name", "_broadcast"];
 _arg_types = param [0, []];
 _name = [_this, 1, "", [""]] call BIS_fnc_param;
-_broadcast = param [3, false, ""];
+_broadcast = param [2, false, [false]];
 
 #ifdef IGN_LIB_DEBUG
 diag_log text format ["IGN_EH: IGN_fnc_createEvent called with %1", _this];
@@ -36,6 +36,29 @@ diag_log text format ["IGN_EH: IGN_fnc_createEvent called with %1", _this];
 
 //private _event = createLocation ["Name", [0,0,0], 0, 0];
 private _event = createVehicle ["Land_HelipadEmpty_F", [0,0,0], [], 0, "NONE"];
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event object created (%1) - setting vehicleVarName", _event];
+#endif
+
+
+if (_broadcast) then
+{
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) has broadcasting enabled - remoteExecCall setVehicleVarName on all machines"];
+#endif
+
+	_event setVehicleVarName _name;
+	publicVariable _name;
+	// setVehicleVarName on each machine
+	[[_event, _name], {(_this select 0) setVehicleVarName (_this select 1);}] remoteExecCall ["bis_fnc_call", 0];
+	publicVariable _name;
+}
+else
+{
+	_event setVehicleVarName _name;
+};
+
 _event setVariable ["IGN_EVENT_TYPE", 0, _broadcast];		// event identifier
 _event setVariable ["name", _name, _broadcast];
 _event setVariable ["arg_types", _arg_types, _broadcast];
@@ -43,36 +66,6 @@ _event setVariable ["raised", false, _broadcast];			// asynchronous check
 _event setVariable ["handlers", [], _broadcast];
 _event setVariable ["broadcast", _broadcast, _broadcast];	// whether event object should broadcast on all changes
 _event setVariable ["owner", clientOwner, _broadcast];	// server will be owner ID 0
-
-#ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EHL IGN_fnc_createEvent: event object created (%1) - setting vehicleVarName", _event];
-#endif
-
-
-if (_broadcast) then
-{
-	// TRY THIS METHOD LATER
-	// we must first set the varname of the object here, then broadcast the name out to all clients, afterwards we can remotecall to set the var name on each machine remotely
-	//_event setVehicleVarName _name;
-	//publicVariable _name;
-
-#ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) has broadcasting enabled - remoteExecCall setVehicleVarName on all machines"];
-#endif
-
-	// test this
-	[[_event, _name], {(_this select 0) setVehicleVarName (_this select 1);}] remoteExecCall ["bis_fnc_call", 0];	// setVehicleVarName on each machine
-	publicVariable _name;
-	//_event setVehicleVarName _name;
-
-	// set variable in missionNamespace (global) and broadcast the name
-	//missionNamespace setVariable [_name, _event];
-
-}
-else
-{
-	_event setVehicleVarName _name;
-};
 
 #ifdef IGN_LIB_DEBUG
 diag_log text format ["IGN_EH: IGN_fnc_createEvent: obj vehicleVarName set to (%1) event (%2)", _name, _event];

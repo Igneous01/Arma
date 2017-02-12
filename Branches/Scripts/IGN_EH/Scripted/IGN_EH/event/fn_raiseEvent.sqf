@@ -95,7 +95,7 @@ else
 #ifdef IGN_LIB_DEBUG
 [_event, "fnc_raiseEvent"] call IGN_fnc_validateEvent;
 [_event, _params, "fnc_raiseEvent"] call IGN_fnc_validateEventArgs;
-diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: Event (%1) raised with arguments (%2)", _event, _params];
+diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: Event (%1) raised by client(%2) with arguments (%3)", _event, clientOwner, _params];
 #endif
 
 private _broadcast = (_event getVariable "broadcast");
@@ -117,10 +117,22 @@ _event, _clientID, _owner, _handler];
 
 		if (_clientID == _owner) then
 		{
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: (%1) handlerOwner(%2) == eventOwner(%3) - calling handler normally",
+_event, _clientID, _owner];
+#endif
+
 			_params call _handler;
 		}
 		else
 		{
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: (%1) handlerOwner(%2) != eventOwner(%3) - remoteExecCall on event owner machine",
+_event, _clientID, _owner];
+#endif
+
 			[_params, _handler] remoteExecCall ["bis_fnc_call", _clientID];
 		};
 	} foreach (_event getVariable "handlers");
