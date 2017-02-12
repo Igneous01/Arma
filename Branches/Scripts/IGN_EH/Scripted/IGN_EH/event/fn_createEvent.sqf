@@ -48,11 +48,12 @@ if (_broadcast) then
 diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) has broadcasting enabled - remoteExecCall setVehicleVarName on all machines"];
 #endif
 
-	_event setVehicleVarName _name;
+	missionNamespace setVariable [_name, _event, _broadcast];
+	[_event, _name] remoteExec ["setVehicleVarName", 0, _event];
 	publicVariable _name;
 	// setVehicleVarName on each machine
-	[[_event, _name], {(_this select 0) setVehicleVarName (_this select 1);}] remoteExecCall ["bis_fnc_call", 0];
-	publicVariable _name;
+	// [[_event, _name], {(_this select 0) setVehicleVarName (_this select 1);}] remoteExecCall ["bis_fnc_call", 0];
+	// publicVariable _name;
 }
 else
 {

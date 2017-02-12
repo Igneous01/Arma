@@ -111,7 +111,7 @@ if (_broadcast) then
 		private _handler = _x select 1;
 
 #ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: Calling handler for (%1) (handlerOwner(%2), eventOwner(%3), code(%4)",
+diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: handler for (%1) (handlerOwner(%2), eventOwner(%3), code(%4)",
 _event, _clientID, _owner, _handler];
 #endif
 
@@ -129,7 +129,7 @@ _event, _clientID, _owner];
 		{
 
 #ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: (%1) handlerOwner(%2) != eventOwner(%3) - remoteExecCall on event owner machine",
+diag_log text format ["IGN_EH: IGN_fnc_raiseEvent: (%1) handlerOwner(%2) != eventOwner(%3) - remoteExecCall on handler owner machine",
 _event, _clientID, _owner];
 #endif
 
