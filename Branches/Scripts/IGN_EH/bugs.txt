@@ -1,0 +1,4 @@
+
+1. ValidateEventArgs did not log when an unknown event was raised
+
+2. There is still a bug where dedicated server will not setVehicleVarName on the object

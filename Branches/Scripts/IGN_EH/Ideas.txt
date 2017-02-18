@@ -1,0 +1,4 @@
+add stopPropagation flag, where a handler can set this to true, and the event will be considered handled.
+With the flag set to true, no more handlers will be called, and the event will no longer be raised.
+
+
