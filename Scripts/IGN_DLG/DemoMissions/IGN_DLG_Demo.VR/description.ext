@@ -1,0 +1,5 @@
+#include "scripted\IGN_DLG\headers\IGN_Definitions.hpp"
+#include "dialogs\TESTGUIDIALOG.hpp"
+#include "dialogs\DATABINDING_GUI.hpp"
+#include "dialogs\OPTIONSDIALOG.hpp"
+#include "dialogs\SAMPLEITEMLIST.hpp"
