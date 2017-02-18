@@ -13,6 +13,7 @@
 	myResult = myFunctor call IGN_fnc_callFunctor;
 	[myResult] = myFunctor call IGN_fnc_callFunctor;
 */
+#include "IGN_EH_Macros.h"
 
 	private ["_functor"];
 	_functor = _this;

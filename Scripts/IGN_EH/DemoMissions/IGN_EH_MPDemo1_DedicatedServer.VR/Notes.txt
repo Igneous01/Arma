@@ -1,0 +1,21 @@
+myVar = createDialog "TESTGUIDIALOG";
+
+myVar = createDialog "TEST_GUI";
+
+
+
+somethings to test in MP
+
+1. If you call addEventHandler for server event on init.sqf for each player, is the handler order guarenteed?
+	ie. If I call AddEventHandler on client 1, and get index 1, will this be the same always?
+	ie. If I delete a handler for a client, will I be guarenteed the handler I am deleting is for this 	client?
+2. test getEventHandlersClient
+
+Cannot use publicVariable on locations (or any objects that are local to a client)
+
+Cannot create Event with object reference as return - you cant guarantee client machines will have this reference (since it's always local) - needs to be made string
+
+Clients need a way to be able to access the global variable reference to a location, but this is only possible
+with global variable + publicVariable, which doesn't support locations.
+
+It's better to go back to createUnit for invisible helipad, as that actually will work with what's required.

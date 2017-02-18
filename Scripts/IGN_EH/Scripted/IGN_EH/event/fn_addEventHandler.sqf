@@ -21,14 +21,48 @@
 		//...
 	}] call IGN_fnc_addEventHandler;
 */
+#include "IGN_EH_Macros.h"
 
-	private ["_event", "_handle"];
-	_event = _this select 0;
-	_handle = [_this, 1, {}, [{}]] call BIS_fnc_param;
+//private ["_event", "_handle"];
+private _event = _this select 0;
+private _handle = [_this, 1, {}, [{}]] call BIS_fnc_param;
 
-	#ifdef IGN_LIB_DEBUG
-	[_event, "IGN_fnc_addEventHandler"] call IGN_fnc_validateEvent;
-	#endif
+#ifdef IGN_LIB_DEBUG
+[_event, "IGN_fnc_addEventHandler"] call IGN_fnc_validateEvent;
+diag_log text format ["IGN_EH: called IGN_fnc_addEventHandler(%1)", _this];
+#endif
 
-	(_event getVariable "handlers") set [count (_event getVariable "handlers"), _handle];
-	count (_event getVariable "handlers") - 1;	// return id
+private _broadcast = (_event getVariable "broadcast");
+private _owner = (_event getVariable "owner");
+private _ret = -1;
+
+/*
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(name: %1, owner: %2, broadcast: %3)", _event, _owner, _broadcast];
+#endif
+
+// publicVariable does not work on locations, or any local objects that belong to a client. We must use remoteExec on the owner of the event
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(%1) handleOwner (%2) eventOwner (%3)",
+_event, clientOwner, _owner];
+#endif
+*/
+
+private _handlers = (_event getVariable "handlers");
+_handlers pushback [clientOwner, _handle];
+_event setVariable["handlers", _handlers, _broadcast];
+_ret = count _handlers - 1;	// return id (not using getVariable here, as there is a chance that calling getVariable will return a different value in multithreaded environment like mp)
+
+//publicVariable (_event getVariable "name"); // not supported for locations
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: handlerID(%1) handleOwner(%2) event(%3) eventOwner(%4)",
+_ret, clientOwner, _event, _owner];
+#endif
+
+_ret;
+
+
+
+

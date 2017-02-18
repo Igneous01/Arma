@@ -1,9 +1,13 @@
 // validates functor, if failed, Error and RPT log
 
-	private ["_functor", "_fncName"];
-	_functor = _this select 0;
-	_fncName = _this select 1;
-	if (!(_functor call IGN_fnc_isFunctor)) then
-	{
-		[_functor, "Functor", _fncName] call IGN_fnc_errorAndLogRPT;
-	};
+params ["_functor", "_fncName"];
+if (
+	(isNil {_functor}) ||
+	( (typename _functor != typename objNull) && (typename _functor != typename locationNull) ) ||
+	(isNull _functor) ||
+	(isNil {_functor getVariable "IGN_FUNCTOR_TYPE"})
+	)
+then
+{
+	[_functor, "Functor", _fncName] call IGN_fnc_errorAndLogRPT;
+};

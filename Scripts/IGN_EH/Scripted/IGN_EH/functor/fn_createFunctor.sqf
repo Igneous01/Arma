@@ -35,6 +35,7 @@
 
 	// This time, myFunctor	passes two arguments (local _myUnit and global myUnit2) and will return true upon completion
 */
+#include "IGN_EH_Macros.h"
 
 	private ["_code", "_args", "_obj"];
 	_code = [_this, 0, {}, [{}]] call BIS_fnc_param;
