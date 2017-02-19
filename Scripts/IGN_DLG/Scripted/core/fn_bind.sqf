@@ -51,7 +51,7 @@
 	};
 
 	missionNamespace setVariable [_varName, [_value, _bindingControls, _bindType]];
-	[IGN_Event_onBind, [_varName, _controlID, _bindType]] call IGN_fnc_raiseEvent;
+	[IGN_Event_onBind, [_varName, _controlID, _displayID, _bindType]] call IGN_fnc_raiseEvent;
 	[IGN_Event_onBindValueChanged, [_varName, _value, _bindType]] call IGN_fnc_raiseEvent;
 
 	// CONTROL MUST BE LOADED FOR THIS TO WORK!

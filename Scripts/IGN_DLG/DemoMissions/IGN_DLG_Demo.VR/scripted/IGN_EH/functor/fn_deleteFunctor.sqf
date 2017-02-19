@@ -12,6 +12,7 @@
 	myFunctor call IGN_fnc_deleteFunctor;
 	[myFunctor] call IGN_fnc_deleteFunctor;
 */
+#include "IGN_EH_Macros.h"
 
 	private ["_functor"];
 	_functor = _this;

@@ -20,8 +20,7 @@
 
 
 */
-private ["_event", "_display", "_params"];
-
+#include "IGN_EH_Macros.h"
 
 #ifdef IGN_LIB_DEBUG
 if (typename _this != typename []) then
@@ -30,7 +29,7 @@ if (typename _this != typename []) then
 };
 #endif
 
-
+private ["_event", "_display", "_params"];
 _event = _this select 0;
 _display = _this select 1;
 if (count _this > 2) then
@@ -42,18 +41,15 @@ else
 	_params = [];
 };
 
-
 #ifdef IGN_LIB_DEBUG
 [_event, "fnc_RaiseEvent"] call IGN_fnc_validateEvent;
 [_event, _params, "fnc_RaiseEvent"] call IGN_fnc_validateEventArgs;
 #endif
 
-
 // handlers looks like this : [
 //								[displayIDD, {handlerCode}],
 //								[displayIDD, {handlerCode}]
 //							  ]
-
 
 _event setVariable ["raised", true];
 

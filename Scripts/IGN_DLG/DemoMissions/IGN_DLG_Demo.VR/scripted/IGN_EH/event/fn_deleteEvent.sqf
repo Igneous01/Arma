@@ -1,7 +1,6 @@
 /*
 	deleteEvent
 	Deletes an existing event object
-	If an invalid event object is passed, it will not be deleted
 
 	Parameters
 	event (object) - the event to be deleted
@@ -10,16 +9,18 @@
 	nothing
 
 	Example:
-	_wasDeleted = myEvent call IGN_fnc_deleteEvent;
-	_wasDeleted = [myEvent] call IGN_fnc_deleteEvent;
+	myEvent call IGN_fnc_deleteEvent;
+	[myEvent] call IGN_fnc_deleteEvent;
 */
+#include "IGN_EH_Macros.h"
 
-	private ["_event"];
-	_event = _this;
-	if (typename _event == typename []) then {_event = _this select 0;};
+params ["_event"];
+if (typename _event == typename []) then {_event = _this select 0;};
 
-	#ifdef IGN_LIB_DEBUG
-	[_event, "IGN_fnc_deleteEvent"] call IGN_fnc_validateEvent;
-	#endif
+#ifdef IGN_LIB_DEBUG
+[_event, "IGN_fnc_deleteEvent"] call IGN_fnc_validateEvent;
+diag_log text format ["IGN_EH: IGN_fnc_deleteEvent: Deleting event (%1)", _event];
+#endif
 
-	deleteVehicle _event;
+//deleteLocation _event;	// test to make sure this command is global
+deleteVehicle _event;

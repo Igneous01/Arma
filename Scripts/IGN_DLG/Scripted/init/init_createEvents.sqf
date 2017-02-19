@@ -8,7 +8,7 @@
 // -bindingControlIDC is the control idc number			(_this select 1)
 // -bindingDisplayIDD is the display idd number			(_this select 2)
 // -bindType is either -1 (no bind), 0 (one-way-bind-control), 1 (one-way-bind-variable), 2 (two-way-bind)	(_this select 3)
-[["", 0, 0, 0], "IGN_Event_onBind"] call IGN_fnc_createEventLocal;
+IGN_Event_onBind = [["", 0, 0, 0], "IGN_Event_onBind", false] call IGN_fnc_createEvent;
 
 // onBindValueChanged
 // raises when the value of a bindingVariable/Control has changed
@@ -16,14 +16,16 @@
 // -bindingVariable is fully qualified	(_this select 0)
 // -newValue : the new value (any type)	(_this select 1)
 // -bindType is either -1 (no bind), 0 (one-way-bind-control), 1 (one-way-bind-variable), 2 (two-way-bind)	(_this select 2)
-[ [], "IGN_Event_onBindValueChanged"] call IGN_fnc_createEventLocal;
+IGN_Event_onBindValueChanged = [ [], "IGN_Event_onBindValueChanged", false] call IGN_fnc_createEvent;
 
 
 
 
 // ************************** Control Events *******************************
 {
-	[[], _x] call IGN_fnc_createEventLocal;
+	private _obj = [[], _x, false] call IGN_fnc_createEvent;
+	private _code = compile format ["%1 = _obj", _x];
+	call _code;
 } foreach
 [
 	"IGN_Event_onButtonClick",
@@ -65,5 +67,5 @@
 
 
 // ************************** Display Events *******************************
-[[], "IGN_Event_onLoadDisplay"] call IGN_fnc_createEventLocal;
-[[], "IGN_Event_onUnloadDisplay"] call IGN_fnc_createEventLocal;
+IGN_Event_onLoadDisplay = [[], "IGN_Event_onLoadDisplay", false] call IGN_fnc_createEvent;
+IGN_Event_onUnloadDisplay = [[], "IGN_Event_onUnloadDisplay", false] call IGN_fnc_createEvent;

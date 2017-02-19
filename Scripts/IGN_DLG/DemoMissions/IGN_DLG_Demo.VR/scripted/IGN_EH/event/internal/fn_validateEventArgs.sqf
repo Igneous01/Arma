@@ -1,11 +1,11 @@
 // validate event arguments and arguments passed, if fail, Error and RPT log
-private ["_event","_argsSupplied", "_argsRequired", "_i", "_fncName"];
-_event = _this select 0;
-_argsSupplied = _this select 1;
+params ["_event", "_argsSupplied", "_fncName"];
 if (typename _argsSupplied != typename []) then {_argsSupplied = [_argsSupplied];};
-_argsRequired = _event getVariable "arg_types";
+private _argsRequired = _event getVariable "arg_types";
 if (typename _argsRequired != typename []) then {_argsRequired = [_argsRequired];};
-_fncName = _this select 2;
+
+// do not validate if event has [] as arg types
+if (count _argsRequired == 0) exitWith {};
 
 //diag_log text format ["IGN_fnc_validateEventArgs : _argsSupplied - %1 , _argsRequired - %2", _argsSupplied, _argsRequired];
 

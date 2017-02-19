@@ -22,6 +22,8 @@ handlerID = [myEvent, 10000
 	//...
 }] call IGN_fnc_addEventHandler;
 */
+#include "IGN_EH_Macros.h"
+
 private ["_event", "_display", "_handle"];
 _event = _this select 0;
 _display = _this select 1;
@@ -37,5 +39,5 @@ _handle = [_this, 2, {}, [{}]] call BIS_fnc_param;
 //								[displayIDD, {handlerCode}]
 //							  ]
 
-(_event getVariable "handlers") set [count (_event getVariable "handlers"), [_display, _handle]];
+(_event getVariable "handlers") pushback [_display, _handle];
 count (_event getVariable "handlers") - 1;	// return id

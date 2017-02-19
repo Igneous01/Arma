@@ -6,8 +6,7 @@
 	Parameters
 	args (Array) (Optional) - Argument types that the event will send to all handlers
 					default value - [] (no arguments)
-	name (String) (Optional) - The name of the object (this will set the vehicle's variable name)
-					default value - "" (no name)
+	name (String) - The name of the event
 
 	Returns
 	The created event object, with these getters in its namespace:
@@ -23,26 +22,56 @@
 	[[objNull], []], "myEvent"] call IGN_fnc_createEvent; // vehicle var name will be myEvent - can now reference myEvent in code
 
 */
-//#include "IGN_LIB_macros.hpp";	not supported in A3 !
+#include "IGN_EH_Macros.h"
+private ["_arg_types", "_name", "_broadcast"];
+_arg_types = param [0, []];
+_name = [_this, 1, "", [""]] call BIS_fnc_param;
+_broadcast = param [2, false, [false]];
 
-	private ["_arg_types", "_name", "_event"];
-	if (!isNil {_this}) then
-	{
-		_arg_types = [_this, 0, []] call BIS_fnc_param;
-		_name = [_this, 1, "", [""]] call BIS_fnc_param;
-	}
-	else
-	{
-		_name = "";
-		_arg_types = [];
-	};
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent called with %1", _this];
+#endif
 
+private _event = objNull;
+
+if (_broadcast) then
+{
 	_event = createVehicle ["Land_HelipadEmpty_F", [0,0,0], [], 0, "NONE"];
 
-	if (_name != "") then
-	{
-		_event setVehicleVarName _name;
-		_event Call Compile Format ["%1=_This",_name];
-	};
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event object created (%1) - setting vehicleVarName", _event];
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) has broadcasting enabled - remoteExecCall setVehicleVarName on all machines"];
+#endif
 
-	[_event, _name, _arg_types] call IGN_fnc_initEvent;	// return event
+	missionNamespace setVariable [_name, _event, _broadcast];
+	[_event, _name] remoteExec ["setVehicleVarName", 0, _event];
+	publicVariable _name;
+}
+else
+{
+	_event = "Land_HelipadEmpty_F" createVehicleLocal [0,0,0];
+	_event setVehicleVarName _name;
+};
+
+_event setVariable ["IGN_EVENT_TYPE", 0, _broadcast];		// event identifier
+_event setVariable ["name", _name, _broadcast];
+_event setVariable ["arg_types", _arg_types, _broadcast];
+_event setVariable ["raised", false, _broadcast];			// asynchronous check
+_event setVariable ["handlers", [], _broadcast];
+_event setVariable ["broadcast", _broadcast, _broadcast];	// whether event object should broadcast on all changes
+_event setVariable ["owner", clientOwner, _broadcast];	// server will be owner ID 0
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: obj vehicleVarName set to (%1) event (%2)", _name, _event];
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) created with the following properties (IGN_EVENT_TYPE: %2, name: %3, arg_types: %4, raised: %5, handlers: %6, broadcast: %7, owner: %8)",
+	_event,
+	_event getVariable "IGN_EVENT_TYPE",
+	_event getVariable "name",
+	_event getVariable "arg_types",
+	_event getVariable "raised",
+	_event getVariable "handlers",
+	_event getVariable "broadcast",
+	_event getVariable "owner"];
+#endif
+
+_event;

@@ -36,31 +36,60 @@ private _broadcast = (_event getVariable "broadcast");
 private _owner = (_event getVariable "owner");
 private _ret = -1;
 
-/*
 #ifdef IGN_LIB_DEBUG
 diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(name: %1, owner: %2, broadcast: %3)", _event, _owner, _broadcast];
 #endif
 
 // publicVariable does not work on locations, or any local objects that belong to a client. We must use remoteExec on the owner of the event
+if (_broadcast && clientOwner != _owner) then
+{
 
 #ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(%1) handleOwner (%2) eventOwner (%3)",
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(%1) - handler owner (%2) != event owner (%3) - remoteExecuting addHandler on event owner machine",
 _event, clientOwner, _owner];
 #endif
-*/
 
-private _handlers = (_event getVariable "handlers");
-_handlers pushback [clientOwner, _handle];
-_event setVariable["handlers", _handlers, _broadcast];
-_ret = count _handlers - 1;	// return id (not using getVariable here, as there is a chance that calling getVariable will return a different value in multithreaded environment like mp)
+ 	// if we do not own this event, remoteExecute on the event owner machine, passing in the clientID of the machine that executed this code from
+	_ret =
+	[
+		[_handle, _event, clientOwner],
+		{
+			params ["_handler", "_event", "_clientID"];
 
-//publicVariable (_event getVariable "name"); // not supported for locations
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: remoteExecCall initiated on event owner(%1) for handler owner(%2)",
+clientOwner, _clientID];
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandlerRemote: params(%1)", _this];
+#endif
+
+			private _handlers = (_event getVariable "handlers");
+			_handlers pushback [_clientID, _handler];	// add handler
+			_event setVariable["handlers", _handlers, (_event getVariable "broadcast")];
+			count _handlers - 1;	// return
+		}
+	] remoteExecCall ["bis_fnc_call", _owner];
+}
+else
+{
+
+#ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: event(%1) - handler owner (%2) == event owner (%3) - adding normally",
+_event, clientOwner, _owner];
+#endif
+
+	private _handlers = (_event getVariable "handlers");
+	_handlers pushback [clientOwner, _handle];
+	_event setVariable["handlers", _handlers, _broadcast];
+	_ret = count _handlers - 1;	// return id (not using getVariable here, as there is a chance that calling getVariable will return a different value in multithreaded environment like mp)
+};
+
+publicVariable (_event getVariable "name"); // not supported for locations
 
 #ifdef IGN_LIB_DEBUG
 diag_log text format ["IGN_EH: IGN_fnc_addEventHandler: handlerID(%1) handleOwner(%2) event(%3) eventOwner(%4)",
 _ret, clientOwner, _event, _owner];
-#endif
 
+#endif
 _ret;
 
 

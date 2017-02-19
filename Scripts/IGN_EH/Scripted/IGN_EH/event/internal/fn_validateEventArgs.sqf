@@ -4,6 +4,9 @@ if (typename _argsSupplied != typename []) then {_argsSupplied = [_argsSupplied]
 private _argsRequired = _event getVariable "arg_types";
 if (typename _argsRequired != typename []) then {_argsRequired = [_argsRequired];};
 
+// do not validate if event has [] as arg types
+if (count _argsRequired == 0) exitWith {};
+
 //diag_log text format ["IGN_fnc_validateEventArgs : _argsSupplied - %1 , _argsRequired - %2", _argsSupplied, _argsRequired];
 
 if (count _argsSupplied != count _argsRequired) exitWith

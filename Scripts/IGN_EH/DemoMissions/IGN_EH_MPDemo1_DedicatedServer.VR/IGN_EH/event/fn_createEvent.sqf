@@ -23,8 +23,6 @@
 
 */
 #include "IGN_EH_Macros.h"
-
-//#include "IGN_LIB_macros.hpp";	not supported in A3 !
 private ["_arg_types", "_name", "_broadcast"];
 _arg_types = param [0, []];
 _name = [_this, 1, "", [""]] call BIS_fnc_param;
@@ -34,29 +32,24 @@ _broadcast = param [2, false, [false]];
 diag_log text format ["IGN_EH: IGN_fnc_createEvent called with %1", _this];
 #endif
 
-//private _event = createLocation ["Name", [0,0,0], 0, 0];
-private _event = createVehicle ["Land_HelipadEmpty_F", [0,0,0], [], 0, "NONE"];
-
-#ifdef IGN_LIB_DEBUG
-diag_log text format ["IGN_EH: IGN_fnc_createEvent: event object created (%1) - setting vehicleVarName", _event];
-#endif
-
+private _event = objNull;
 
 if (_broadcast) then
 {
+	_event = createVehicle ["Land_HelipadEmpty_F", [0,0,0], [], 0, "NONE"];
+
 #ifdef IGN_LIB_DEBUG
+diag_log text format ["IGN_EH: IGN_fnc_createEvent: event object created (%1) - setting vehicleVarName", _event];
 diag_log text format ["IGN_EH: IGN_fnc_createEvent: event(%1) has broadcasting enabled - remoteExecCall setVehicleVarName on all machines"];
 #endif
 
 	missionNamespace setVariable [_name, _event, _broadcast];
 	[_event, _name] remoteExec ["setVehicleVarName", 0, _event];
 	publicVariable _name;
-	// setVehicleVarName on each machine
-	// [[_event, _name], {(_this select 0) setVehicleVarName (_this select 1);}] remoteExecCall ["bis_fnc_call", 0];
-	// publicVariable _name;
 }
 else
 {
+	_event = "Land_HelipadEmpty_F" createVehicleLocal [0,0,0];
 	_event setVehicleVarName _name;
 };
 
