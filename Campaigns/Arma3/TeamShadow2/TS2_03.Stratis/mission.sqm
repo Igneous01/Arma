@@ -8,14 +8,14 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=228;
+		nextID=242;
 	};
 	class Camera
 	{
-		pos[]={4588.3921,131.14795,5295.4746};
-		dir[]={-0.74587882,-0.65697676,0.11096426};
-		up[]={-0.64979249,0.75392431,0.096668266};
-		aside[]={0.14716375,-4.4339686e-007,0.9892242};
+		pos[]={4664.9585,185.88141,5297.7905};
+		dir[]={-0.37085378,-0.60636842,0.70358557};
+		up[]={-0.28272969,0.79517812,0.53639531};
+		aside[]={0.88472712,-2.0605512e-008,0.46633294};
 	};
 };
 binarizationWanted=0;
@@ -56,13 +56,15 @@ addons[]=
 	"A3_Supplies_F_Heli_Slingload",
 	"A3_Structures_F_EPA_Mil_Scrapyard",
 	"A3_Structures_F_Furniture",
-	"A3_Structures_F_Civ_Camping"
+	"A3_Structures_F_Civ_Camping",
+	"A3_Modules_F_Intel",
+	"A3_Misc_F_Helpers"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=18;
+		items=20;
 		class Item0
 		{
 			className="A3_Structures_F";
@@ -189,6 +191,20 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="http://www.arma3.com";
 		};
+		class Item18
+		{
+			className="A3_Modules_F";
+			name="Arma 3 Alpha - Scripted Modules";
+			author="Bohemia Interactive";
+			url="http://www.arma3.com";
+		};
+		class Item19
+		{
+			className="A3_Misc_F";
+			name="Arma 3 - 3D Aids and Helpers";
+			author="Bohemia Interactive";
+			url="http://www.arma3.com";
+		};
 	};
 };
 randomSeed=9791395;
@@ -223,7 +239,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=122;
+		items=134;
 		class Item0
 		{
 			dataType="Object";
@@ -2842,7 +2858,7 @@ class Mission
 		class Item87
 		{
 			dataType="Trigger";
-			position[]={4621.1509,130.79497,5293.4321};
+			position[]={4651.1221,118.84219,5344.6196};
 			class Attributes
 			{
 				text="Begin Briefing";
@@ -2895,7 +2911,7 @@ class Mission
 				name="TRG";
 				text="Shooter left position";
 				condition="!(PlayerShooter in thislist) && TestStarted && !TestComplete";
-				onActivation="hint ""You aborted the test...""; 0 = [] spawn {sleep 5; endMission ""LOSER"";};";
+				onActivation="hint ""You aborted the test...""; 0 = [] spawn {sleep 5; ""loser"" call BIS_fnc_endMission;};";
 				sizeA=2.5;
 				sizeB=2.5;
 				sizeC=3;
@@ -3893,6 +3909,530 @@ class Mission
 			id=227;
 			type="ShootingPos_F";
 			atlOffset=-1.5258789e-005;
+		};
+		class Item122
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={4643.542,120.29416,5343.0308};
+			};
+			name="diarymod_briefing";
+			id=228;
+			type="ModuleCreateDiaryRecord_F";
+			atlOffset=7.6293945e-006;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleCreateDiaryRecord_F_PresetTitle";
+					expression="_this setVariable ['PresetTitle',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Situation";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleCreateDiaryRecord_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Briefing";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleCreateDiaryRecord_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Welcome to the third and final phase of sniper training. In this phase you will be assessed on unknown distance long range sniping, where the range it not known to the target. If you complete this assessment successfully you will graduate from sniper school.";
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleCreateDiaryRecord_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleCreateDiaryRecord_F_Subject";
+					expression="_this setVariable ['Subject',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Briefing";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				nAttributes=6;
+			};
+		};
+		class Item123
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={4639.7681,122.51244,5338.4141};
+				angles[]={0.4145157,0,6.2631841};
+			};
+			name="diarymod_rules";
+			id=229;
+			type="ModuleCreateDiaryRecord_F";
+			atlOffset=-7.6293945e-006;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleCreateDiaryRecord_F_PresetTitle";
+					expression="_this setVariable ['PresetTitle',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Situation";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleCreateDiaryRecord_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Rules";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleCreateDiaryRecord_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="The scoring for this assessment is based on points, where hitting a target quickly and accurately gives more points than hitting a target slowly and missing some shots. " \n " " \n "The assessment has 5 rounds, each round a target appears, and you will be given 5 minutes to determine the targets range and calculate a firing solution that will hit the target. You will have 3 attempts to hit your target. If you miss all 3 attempts, you gain 0 points. " \n " " \n "The targets are small boards, about ¼ the size of a human torso. They will be selected at random from a range of 500 meters to 1300 meters. The same target will not be used twice in an assessment.  " \n " " \n "You will be allowed to choose a single rifle and scope to complete this assessment. Leaving your shooting position while the assessment is in progress is an automatic failure. " \n " " \n "The goal of the assessment is to score 4000 points or above to pass sniper school.";
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleCreateDiaryRecord_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleCreateDiaryRecord_F_Subject";
+					expression="_this setVariable ['Subject',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Briefing";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				nAttributes=6;
+			};
+		};
+		class Item124
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={4643.7358,123.33786,5335.9971};
+				angles[]={0.43320817,0,6.2207723};
+			};
+			name="diarymod_scorecalculation";
+			id=230;
+			type="ModuleCreateDiaryRecord_F";
+			atlOffset=-7.6293945e-006;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleCreateDiaryRecord_F_PresetTitle";
+					expression="_this setVariable ['PresetTitle',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Situation";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleCreateDiaryRecord_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Score Calculation";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleCreateDiaryRecord_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Scoring is calculated based on the following criteria: " \n " " \n "Target Range – the range to the target " \n " " \n "Time to Shoot – the amount of time needed to hit a target " \n " " \n "Shots Fired – the number of shots needed to hit the target " \n " " \n "Target Hit – whether the target was hit " \n " " \n "In order to score points, you must hit your target. If you miss the target after 3 shots, or run out of time, you will not gain any points. " \n " " \n "The range points are awarded based on the range to the target. If you hit a target at 500 meters, you gain 500 points. If you hit a target at 1000 meters, you gain 1000 points. " \n " " \n "The time points are awarded based on how quickly you could hit a target. The minimum bonus points scored would be 18 (if all 5 minutes was used) and the maximum would be 1000 points (if hit within 9 seconds). This scaling is exponential. " \n " " \n "The shots penalty penalizes your score, depending on the amount of attempts required to hit a target. If the target was hit in a single shot, there are no deductions. Each reattempt at hitting a target will deduct a certain amount of points, depending on range. At 500 meters, each miss deducts 100 points. At 1000 meters, each miss deducts 50 points. " \n "An example of how scoring is provided is as follows:" \n "" \n "A shooter hits a target at 1000m in 2 shots,  3 minutes time. " \n " " \n "Range Points: 1000 " \n "Time Points: 50 " \n "Penalty: 50 " \n " " \n "Round Score: 1000 + 50 – 50 = 1000 " \n " " \n "A shooter hits a target at 500m in 3 shots, 4 minutes time. " \n " " \n "Range Points: 500 " \n "Time Points: 37.5 " \n "Penalty: 200 (100 * 2) " \n " " \n "Round Score: 500 + 37.5 – 200 = 337.5, rounded to 338";
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleCreateDiaryRecord_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleCreateDiaryRecord_F_Subject";
+					expression="_this setVariable ['Subject',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Briefing";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				nAttributes=6;
+			};
+		};
+		class Item125
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={4646.3809,121.734,5339.0801};
+			};
+			title="Briefing Notes";
+			description="Briefing Modules with explanations about the Assessment Rules, and how Score is calculated.";
+			id=231;
+			atlOffset=0.00065612793;
+		};
+		class Item126
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={4588.3301,128.65199,5293.7358};
+			};
+			title="Player Shooting Position";
+			description="The player will be doing the test from this position. This trigger is here to check if they activated the test and left the position, if they did fail the mission.";
+			id=232;
+			atlOffset=-0.00015258789;
+		};
+		class Item127
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={4611.2949,129.967,5295.313};
+			};
+			title="Player Gear Box";
+			description="Player selects their gear from here.";
+			id=233;
+			atlOffset=-0.00030517578;
+		};
+		class Item128
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={3792.321,23.801001,5490.4531};
+			};
+			title="Targets";
+			description="These targets are stored in array via nearObjects in init.sqf" \n "On start mission they are hidden, then randomly selected and reappear with a helper object so that player can better see where they were created.";
+			id=234;
+			atlOffset=0.0022182465;
+		};
+		class Item129
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4590.0864,128.84245,5294.0547};
+				angles[]={0.042473838,4.8051963,0.077348292};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=235;
+			type="Sign_Arrow_Direction_Green_F";
+		};
+		class Item130
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4588.0332,129.4785,5291.2998};
+				angles[]={4.6866632,4.7509546,1.1101286};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=237;
+			type="Sign_Arrow_Direction_Green_F";
+			atlOffset=0.70500183;
+		};
+		class Item131
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4588.3672,129.37302,5297.3164};
+				angles[]={1.612324,4.6973391,1.2878897};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=238;
+			type="Sign_Arrow_Direction_Green_F";
+			atlOffset=0.85179138;
+		};
+		class Item132
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4610.8252,130.05554,5292.8418};
+				angles[]={0.014998405,0.64685887,0.042473838};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=240;
+			type="Sign_Arrow_Direction_Yellow_F";
+		};
+		class Item133
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4612.0264,134.319,5294.6978};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=241;
+			type="Sign_Arrow_Yellow_F";
+			atlOffset=3.937851;
 		};
 	};
 };

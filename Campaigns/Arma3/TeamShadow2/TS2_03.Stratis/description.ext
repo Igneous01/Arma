@@ -67,194 +67,23 @@ class CfgNotifications
 	};
 };
 
-class CfgFunctions
+class CfgDebriefing
 {
-	class EF
+	class End1
 	{
-		class Effects
-		{
-			class createEffect
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\effects\Efnc_createEffect.sqf";
-			};
-		};
+		title = "Mission Completed";
+		subtitle = "";
+		description = "You have successfully completed the UKD Assessment and have graduated from sniper school. Congratulations.";
+		pictureBackground = "";
+		picture = "";
+	};
 
-		class Functional
-		{
-			class singleParam
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\functional\Efnc_singleParam.sqf";
-			};
-		};
-
-		class AI
-		{
-			class setRndSkill
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\ai\Efnc_setRndSkill.sqf";
-			};
-		};
-
-		class Boolean
-		{
-			class aliveGroup
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\boolean\Efnc_aliveGroup.sqf";
-			};
-
-			class aliveUnits
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\boolean\Efnc_aliveUnits.sqf";
-			};
-
-			class groupDead
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\boolean\Efnc_groupDead.sqf";
-			};
-
-			class groupInVehicle
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\boolean\Efnc_groupInVehicle.sqf";
-			};
-
-			class groupInVehicles
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\boolean\Efnc_groupInVehicles.sqf";
-			};
-		};
-
-		class Direction
-		{
-			class getDir
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\direction\Efnc_getDir.sqf";
-			};
-		};
-
-		class Hints
-		{
-			class advHints
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\hints\Efnc_advHints.sqf";
-			};
-		};
-
-		class Map
-		{
-			class mapClick
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\map\Efnc_mapClick.sqf";
-			};
-		};
-
-		class Markers
-		{
-			class hideMarker
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\markers\Efnc_hideMarker.sqf";
-			};
-		};
-
-		class Numbers
-		{
-			class randInRange
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\numbers\Efnc_randInRange.sqf";
-			};
-		};
-
-		class Objects
-		{
-			class createLight
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\objects\Efnc_createLight.sqf";
-			};
-
-			class nearestRoad
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\objects\Efnc_nearestRoad.sqf";
-			};
-		};
-
-		class Position
-		{
-			class getPosAtAngle
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\position\Efnc_getPosAtAngle.sqf";
-			};
-
-			class setPosASLZ
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\position\Efnc_setPosASLZ.sqf";
-			};
-
-			class setPosATLZ
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\position\Efnc_setPosATLZ.sqf";
-			};
-
-			class setPosZ
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\position\Efnc_setPosZ.sqf";
-			};
-		};
-
-		class Tasks
-		{
-			class updateTask
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\tasks\Efnc_updateTask.sqf";
-			};
-		};
-
-		class Waypoints
-		{
-			class createWP
-			{
-				//preInit = 1; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
-				//ext = ".sqf"; // Set file type, can be ".sqf" or ".fsm" (meaning scripted FSM). Default is ".sqf".
-				file = "Extended Functions\waypoints\Efnc_createWP.sqf";
-			};
-		};
+	class loser
+	{
+		title = "Mission Failed";
+		subtitle = "";
+		description = "You failed to pass the UKD Assessment.";
+		pictureBackground = "";
+		picture = "";
 	};
 };

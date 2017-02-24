@@ -37,6 +37,8 @@ the target is very small
 */
 IGN_fnc_briefing =
 {
+	disableUserInput true;
+
 	titleText ["Welcome to the range. Today we'll be examining your long range shooting skills.", "PLAIN DOWN", 0.5];
 	sleep 5;
 	titleText ["This assessment will test your accuracy, speed, and discipline to hit your target. Scoring hits earns points, scoring NO hits earns 0 points.", "PLAIN DOWN", 0.8];
@@ -46,6 +48,7 @@ IGN_fnc_briefing =
 	titleText ["You gain score by getting hits quickly. You will be penalized for missing shots. The goal is to get 4000 points to graduate from Sniper School. Good Luck.", "PLAIN DOWN", 1];
 	sleep 5;
 	true call IGN_fnc_setTestTaskState;
+	disableUserInput false;
 	sleep 3;
 
 	// duplicate the hint, because it will disappear after a few seconds, so keep it up longer

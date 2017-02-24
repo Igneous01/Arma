@@ -108,14 +108,14 @@ IGN_fnc_saveRoundResults =
 
 	// target hit score = 100 * (range / 100)
 	// time bonus = (3000 / time) * 3
-	// penalties = (numMissedShots - 1) * (5 / range)
+	// penalties = (numMissedShots - 1) * (500 / range)
 
 	private _rndScore = 0;
 	if (_hit && _time < TIMEPERROUND) then
 	{
-		_rndScore = 100 * _dist;
+		_rndScore = 100 * _dist;	// makes no sense dividing by 100 above, then multiplying here by 100
 		_rndScore = _rndScore + ( ((TIMEPERROUND * 10) / _time) * 3 );
-		_rndScore = round (_rndScore - ( (_shotsFired - 1) * ( 5 / _dist) ) );
+		_rndScore = round (_rndScore - ( (_shotsFired - 1) * ( 500 / _dist) ) );
 	};
 	// no hit = 0
 
@@ -190,13 +190,13 @@ IGN_fnc_stopGame =
 			{
 				"SUCCEEDED" call IGN_fnc_setTestTaskState;
 				sleep 5;
-				endMission "END1";
+				"end1" call BIS_fnc_endMission;
 			}
 			else
 			{
 				"FAILED" call IGN_fnc_setTestTaskState;
 				sleep 5;
-				endMission "LOSER";
+				"loser" call BIS_fnc_endMission;
 			};
 		};
 	};
