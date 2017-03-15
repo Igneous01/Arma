@@ -1,15 +1,16 @@
 // constructs phase logic object with various properties
-IGN_fnc_initPhaseLogic =
+TS2_fnc_initPhaseLogic =
 {
 	params["_logic", "_targets", "_weapon"];
-	diag_log text format ["IGN_fnc_initPhaseLogic: %1", _this];
+	diag_log text format ["TS2_fnc_initPhaseLogic: %1", _this];
 	_logic setVariable ["TS2_targets", _targets];
 	_logic setVariable ["TS2_targetsCount", count _targets];
+	//_logic setVariable ["TS2_started", false];	// whether phase has started - used to prevent triggers from reactivating
 	_logic setVariable ["TS2_weapon", _weapon];	// required weapon
 	_logic setVariable ["TS2_shotsFired", 0];	// number of shots fired
 	_logic setVariable ["TS2_hits", 0];			// number of hits
 	_logic setVariable ["TS2_time", 0];			// time completed
-	_logic setVariable ["TS2_accuracyBonus", 0];// bonus points accrued for accuracy
+	_logic setVariable ["TS2_accuracyHits", 0]; // bonus counter for accuracy
 	_logic setVariable ["TS2_bonus", 0 ];		// bonus subscore (used in logic and calculation) (displays in real time for player)
 	_logic setVariable ["TS2_penalties", 0];	// penalty points accrued during phase (displays in real time for player)
 	_logic setVariable ["TS2_penaltyWrongWeapon", 0];	// penalty counter for wrong weapon in zone
@@ -17,7 +18,29 @@ IGN_fnc_initPhaseLogic =
 	_logic setVariable ["TS2_penaltySkippedTargets", 0];// penalty counter for skipping/not hitting all targets in phase
 };
 
-IGN_fnc_initPhase1 =
+TS2_fnc_initTargetZones =
+{
+	private _t = _this;
+	// check to see if target has accuracy zones defined
+	{
+		private _tClass = _x select 0;
+		//diag_log text format ["typeOf target: %1 class expected: %2", (typeOf _t), _tClass];
+		if ((typeOf _t) isEqualTo _tClass) exitWith
+		{
+			diag_log text format ["Found target %1 with class %2 - creating zones", _t, _tClass];
+			private _tHead = _x select 1;
+			private _tTorso = _x select 2;
+			// using the same logic as BIS - simply create a dummy object, attach it to the model coordinates, then compute using distance in the HitPart handler to determine if the shot was inside the accuracy zone
+			private _zoneHead = "Sign_Sphere10cm_F" createVehicle (getpos _t);
+			_zoneHead attachTo [_t, _tHead];
+			private _zoneTorso = "Sign_Sphere10cm_F" createVehicle (getpos _t);
+			_zoneTorso attachTo [_t, _tTorso];
+			_t setVariable ["TS2_accuracyZones", [_zoneHead, _zoneTorso]];
+		};
+	} forEach TARGET_ZONE_ARRAY;
+};
+
+TS2_fnc_initPhase1 =
 {
 	// first create the railings and moving targets
 	private _createRailhandle1 = [phase1rail1,11,0,31,[1.2,-1,0,-1,objNull]] execVM "scripts\initTargetRailExt.sqf";	// side to side sandbags middle
@@ -44,13 +67,48 @@ IGN_fnc_initPhase1 =
 	{
 		_x animate ["terc", 1];
 		_x setVariable ["TS2_logicphase", logic_phase1];	// set a reference to the logic that houses this target (used in hitpart EH)
+		_x call TS2_fnc_initTargetZones;
 	} forEach _targets;
 
-	[logic_phase1, _targets, "SniperRifle"] call IGN_fnc_initPhaseLogic;
+	[logic_phase1, _targets, "SniperRifle"] call TS2_fnc_initPhaseLogic;
 	//["Rifle_Long_Base_F","Rifle_Base_F","Rifle","RifleCore","Default"]
 };
 
-IGN_fnc_initPhase10 =
+TS2_fnc_initPhase9 =
+{
+	private _railArrayHandles = [];
+	_railArrayHandles pushback ([phase9rail1,6,0,31,[1.2,-1,1,-1,objNull]] execVM "scripts\initTargetRailExt.sqf");
+	_railArrayHandles pushback ([phase9rail2,13,0,31,[1.5,-1,0.5,-1,objNull]] execVM "scripts\initTargetRailExt.sqf");
+	_railArrayHandles pushback ([phase9rail3,8,0,31,[2,-1,1.5,-1,objNull]] execVM "scripts\initTargetRailExt.sqf");
+	{
+		waitUntil {scriptDone _x;};
+	} forEach _railArrayHandles;
+
+	// swivel target parent class: "Target_Swivel_01_base_F"
+	// target base class: "TargetBase"
+	// rails are also part of TargetBase, so we need to filter these out ("Target_Rail_F")
+	private _targets = trgPhase9 nearObjects ["TargetBase", ((triggerArea trgPhase9) select 0)]; // returns all popup/moving targets in area
+	for "_i" from ((count _targets) - 1) to 0 step -1 do
+	{
+		if ( (_targets select _i) isKindOf "Target_Rail_F" ) then
+		{
+			_targets deleteAt _i;
+		};
+	};
+
+	//_targets append (trgPhase10 nearObjects ["Target_Swivel_01_base_F", ((triggerArea trgPhase10) select 0)]);
+
+	{
+		_x animate ["terc", 1];
+		_x setVariable ["TS2_logicphase", logic_phase9];	// set a reference to the logic that houses this target (used in hitpart EH)
+		_x call TS2_fnc_initTargetZones;
+	} forEach _targets;
+
+	[logic_phase9, _targets, "Handgun"] call TS2_fnc_initPhaseLogic;
+	//["Rifle_Long_Base_F","Rifle_Base_F","Rifle","RifleCore","Default"]
+};
+
+TS2_fnc_initPhase10 =
 {
 	private _railArrayHandles = [];
 	_railArrayHandles pushback ([phase2rail1,8,0,31,[1.2,-1,1,-1,objNull]] execVM "scripts\initTargetRailExt.sqf"); // side to side top right building
@@ -82,16 +140,17 @@ IGN_fnc_initPhase10 =
 	{
 		_x animate ["terc", 1];
 		_x setVariable ["TS2_logicphase", logic_phase10];	// set a reference to the logic that houses this target (used in hitpart EH)
+		_x call TS2_fnc_initTargetZones;
 	} forEach _targets;
 
-	[logic_phase10, _targets, "SniperRifle"] call IGN_fnc_initPhaseLogic;
+	[logic_phase10, _targets, "SniperRifle"] call TS2_fnc_initPhaseLogic;
 	//["Rifle_Long_Base_F","Rifle_Base_F","Rifle","RifleCore","Default"]
 };
 
 // initializes all phases - called in trigger
-IGN_fnc_initPhases =
+TS2_fnc_initPhases =
 {
-	private _handle = [] spawn IGN_fnc_initPhase1;
+	private _handle = [] spawn TS2_fnc_initPhase1;
 	waitUntil {scriptDone _handle};
 
 	{
@@ -100,11 +159,13 @@ IGN_fnc_initPhases =
 		private _weap = _x select 2;
 		private _targets = _trg nearObjects ["TargetBase", ((triggerArea _trg) select 0)]; // returns all popup/moving targets in area
 		{
-			_x animate ["terc", 1];
-			_x setVariable ["TS2_logicphase", _logic];	// set a reference to the logic that houses this target (used in hitpart EH)
+			private _t = _x;
+			_t animate ["terc", 1];						// set down
+			_t setVariable ["TS2_logicphase", _logic];	// set a reference to the logic that houses this target (used in hitpart EH)
+			_t call TS2_fnc_initTargetZones;
 		} forEach _targets;
 
-		[_logic, _targets, _weap] call IGN_fnc_initPhaseLogic;
+		[_logic, _targets, _weap] call TS2_fnc_initPhaseLogic;
 	} foreach
 	[
 		[logic_phase2, trgPhase2, "SniperRifle"],
@@ -113,21 +174,56 @@ IGN_fnc_initPhases =
 		[logic_phase5, trgPhase5, "SniperRifle"],
 		[logic_phase6, trgPhase6, "Handgun"],
 		[logic_phase7, trgPhase7, "SniperRifle"],
-		[logic_phase8, trgPhase8, "Handgun"],
-		[logic_phase9, trgPhase9, "Handgun"]
+		[logic_phase8, trgPhase8, "Handgun"]
 	];
-	_handle = [] spawn IGN_fnc_initPhase10;
+	_handle = [] spawn TS2_fnc_initPhase9;
+	waitUntil {scriptDone _handle};
+	_handle = [] spawn TS2_fnc_initPhase10;
 	waitUntil {scriptDone _handle};
 };
 
+
+TS2_fnc_calculateAccuracyBonus =
+{
+	params ["_target", "_shotPos"];
+	diag_log text format ["target: %1, accuracyZones: %2", _target, (_target getVariable "TS2_accuracyZones")];
+	if (isNil {(_target getVariable "TS2_accuracyZones");}) exitWith {0;}; // return 0 for any targets that do not have defined zones
+
+	private _head = (_target getVariable "TS2_accuracyZones") select 0;
+	if (_shotPos distance (getposASL _head) <= HEAD_ZONE_DISTANCE) exitWith
+	{
+		diag_log text format ["Head Shot (Distance to center: %1)", (_shotPos distance (getposASL _head))];
+		BONUS_ACCURACY_HEAD;
+	};
+
+	private _torso = (_target getVariable "TS2_accuracyZones") select 1;
+	if (_shotPos distance (getposASL _torso) <= TORSO_INNER_ZONE_DISTANCE) exitWith
+	{
+		diag_log text format ["Inner Torso Shot (Distance to center: %1)", (_shotPos distance (getposASL _torso))];
+		BONUS_ACCURACY_TORSO_INNER;
+	};
+
+	if (_shotPos distance (getposASL _torso) <= TORSO_OUTER_ZONE_DISTANCE) exitWith
+	{
+		diag_log text format ["Outer Torso Shot (Distance to center: %1)", (_shotPos distance (getposASL _torso))];
+		BONUS_ACCURACY_TORSO_OUTER;
+	};
+
+	diag_log text format ["No Bonus Shot (Distance to head: %1 Distance to torso: %2)", (_shotPos distance _head), (_shotPos distance _torso)];
+	0;	// return 0
+};
+
+
+
 // handler for HitPart attached to each target
-IGN_fnc_hitPartHandler =
+TS2_fnc_hitPartHandler =
 {
 	diag_log text format ["hitPartHandler: %1", _this];
 	//params ["_targetObj", "_shooter", "_bullet", "_pos", "_vel", "_hitParts", "_ammo", "_dir", "_radius", "_surface", "_direct"];
 	private _targetObj = (_this select 0) select 0;
 	private _shooter = (_this select 0) select 1;
 	private _bullet = (_this select 0) select 2;
+	private _pos = (_this select 0) select 3;
 	private _hitParts = (_this select 0) select 5;
 	private _ammo = (_this select 0) select 6;
 	private _direct = (_this select 0) select 10;
@@ -135,39 +231,49 @@ IGN_fnc_hitPartHandler =
 	//hint format ["hit part: %1", _hitParts];
 	// appears that "target" is returned when hit in zone
 
-	// player needs to be shooter, ammo must belong to specified weapon, and must be direct impact
-	if (_shooter isEqualTo player && _direct) then
+	// player needs to be shooter, and must be direct impact
+	if (_shooter isEqualTo player && _direct && (count _hitParts) > 0) then
 	{
-		_targetObj removeEventHandler ["HitPart", (_targetObj getVariable "TS2_hitPartHandler")];	// remove handler
-		_targetObj setVariable ["TS2_hitPartHandler", -1];	// index no longer valid
+		// remove handler, and reset index to -1
+		_targetObj removeEventHandler ["HitPart", (_targetObj getVariable "TS2_hitPartHandler")];
+		_targetObj setVariable ["TS2_hitPartHandler", -1];
+
+		// update hits counters and score
 		private _l = _targetObj getVariable "TS2_logicphase";
 		_L setVariable ["TS2_hits", (_l getVariable "TS2_hits") + 1];	// increment hits counter
+		_L setVariable ["TS2_bonus", (_l getVariable "TS2_bonus") + BONUS_HIT];	// add to bonus
+		TEST_BONUSES = TEST_BONUSES + BONUS_HIT;
 
-		private _weapon = ((currentWeapon player) call BIS_fnc_itemtype) select 1;
 		// in order to get accuracy bonus, the correct weapon must be selected
+		// check if correct weapon is used
+		private _weapon = ((currentWeapon player) call BIS_fnc_itemtype) select 1;
 		if (_weapon isEqualTo (_l getVariable "TS2_weapon")) then
 		{
-			if ( ({_x == "target"} count _hitParts) != 0 ) then
+			private _bonus = [_targetObj, _pos] call TS2_fnc_calculateAccuracyBonus;
+			if (_bonus > 0) then
 			{
 				// hit target in accuracy zone
-				_l setVariable ["TS2_accuracyBonus", (_l getVariable "TS2_accuracyBonus")];	// increment accuracy bonus counter
+				_l setVariable ["TS2_accuracyHits", (_l getVariable "TS2_accuracyHits") + 1];
+				_l setVariable ["TS2_bonus", (_l getVariable "TS2_bonus") + _bonus];
+				TEST_BONUSES = TEST_BONUSES + _bonus;
 			};
 		}
 		else
 		{
+			TEST_PENALTIES = TEST_PENALTIES + PENALTY_WRONG_WEAPON;
 			_l setVariable ["TS2_penaltyWrongWeapon", (_l getVariable "TS2_penaltyWrongWeapon") + 1];	// increment wrong weapon counter
 		};
 
 		// if this is the last of the targets hit during this phase, call end phase
 		if ((_l getVariable "TS2_targetsCount") == (_l getVariable "TS2_hits")) then
 		{
-			_l call IGN_fnc_endPhase;
+			_l call TS2_fnc_endPhase;
 		};
 	};
 };
 
 // calculates the scores / penalties for a phase
-IGN_fnc_calculateScore =
+TS2_fnc_calculateScore =
 {
 	private _logic = _this;
 
@@ -184,9 +290,9 @@ IGN_fnc_calculateScore =
 										 (_penalty_missedshots * PENALTY_MISSED_SHOT) +
 										 (_penalty_wrongweapon * PENALTY_WRONG_WEAPON)];
 
-	// calculate bonus
-	private _bonus = ( (_logic getVariable "TS2_hits") * BONUS_HIT ) + ( (_logic getVariable "TS2_accuracyBonus") * BONUS_ACCURACY );
-	_logic setVariable ["TS2_bonus", _bonus];
+	// wrong weapon score is already calculated in real time, not included here
+	TEST_PENALTIES = TEST_PENALTIES + (_penalty_skiptargets * PENALTY_SKIPPED_TARGET);
+	TEST_PENALTIES = TEST_PENALTIES + (_penalty_missedshots * PENALTY_MISSED_SHOT);
 
 	if (_penalty_skiptargets > 0) then
 	{
@@ -194,9 +300,10 @@ IGN_fnc_calculateScore =
 	};
 };
 
-IGN_fnc_startPhase =
+TS2_fnc_startPhase =
 {
 	private _logic = _this;
+	if ( (_logic getVariable "TS2_time") > 0) exitWith {};
 	hintC "Starting Phase";
 	_logic setVariable ["TS2_time", time];	// start tracking time
 	// if phase 1 - make all targets stand up
@@ -204,16 +311,16 @@ IGN_fnc_startPhase =
 	//{
 		{
 			_x animate ["terc", 0];
-			private _h = _x addEventHandler ["HitPart", IGN_fnc_hitPartHandler];
-			diag_log text format ["IGN_fnc_startPhase: BEFORE TS2_hitPartHandler: %1", (_x getVariable "TS2_hitPartHandler")];
+			private _h = _x addEventHandler ["HitPart", TS2_fnc_hitPartHandler];
+			diag_log text format ["TS2_fnc_startPhase: BEFORE TS2_hitPartHandler: %1", (_x getVariable "TS2_hitPartHandler")];
 			_x setVariable ["TS2_hitPartHandler", _h];	// check to see this will work (not sure if forEach will allow this)
-			diag_log text format ["IGN_fnc_startPhase: AFTER TS2_hitPartHandler: %1", (_x getVariable "TS2_hitPartHandler")];
+			diag_log text format ["TS2_fnc_startPhase: AFTER TS2_hitPartHandler: %1", (_x getVariable "TS2_hitPartHandler")];
 		} forEach (_logic getVariable "TS2_targets");
 	//};
 	CURRENT_PHASE = _logic;
 };
 
-IGN_fnc_endPhase =
+TS2_fnc_endPhase =
 {
 	if (isNull CURRENT_PHASE) exitWith {};
 	hintC "Ending Phase";
@@ -230,19 +337,20 @@ IGN_fnc_endPhase =
 		_x animate ["terc", 1];
 	} forEach (_logic getVariable "TS2_targets");
 
-	_logic call IGN_fnc_calculateScore;
-	CURRENT_PHASE = objNull;
+	_logic call TS2_fnc_calculateScore;
 
 	if (_logic == logic_phase10) then
 	{
-		call IGN_fnc_endTest;
+		call TS2_fnc_endTest;
 	};
+
+	CURRENT_PHASE = objNull;
 };
 
 
 
 // returns an array of strings that are later used to format a report of each phase
-IGN_fnc_getPhaseScoreReport =
+TS2_fnc_getPhaseScoreReport =
 {
 	private _logic = _this;
 	private _report = [];
@@ -250,7 +358,7 @@ IGN_fnc_getPhaseScoreReport =
 
 	// calculate score
 	private _hitScore = (_logic getVariable "TS2_hits") * BONUS_HIT;
-	private _accBonus = (_logic getVariable "TS2_accuracyBonus") * BONUS_ACCURACY;
+	private _accBonus = (_logic getVariable "TS2_bonus") - _hitScore;
 	private _wrongPenalty = (_logic getVariable "TS2_penaltyWrongWeapon") * PENALTY_WRONG_WEAPON;
 	private _missPenalty = (_logic getVariable "TS2_penaltyMissedShots") * PENALTY_MISSED_SHOT;
 	private _skipPenalty = (_logic getVariable "TS2_penaltySkippedTargets") * PENALTY_SKIPPED_TARGET;
@@ -299,31 +407,40 @@ IGN_fnc_getPhaseScoreReport =
 	_report pushback ( format ["Time: %1", (_logic getVariable "TS2_time")] );
 	_report pushback ( format ["Hits (x%1): -%2",
 								(_logic getVariable "TS2_hits"),
-								[_hitScore, "MM:SS"] call BIS_fnc_secondsToString
+								[abs _hitScore, "MM:SS.MS"] call BIS_fnc_secondsToString
 							  ] );
 	_report pushback ( format ["Accuracy Bonus (x%1): -%2",
-								(_logic getVariable "TS2_accuracyBonus"),
-								[_accBonus, "MM:SS"] call BIS_fnc_secondsToString
+								(_logic getVariable "TS2_accuracyHits"),
+								[abs _accBonus, "MM:SS.MS"] call BIS_fnc_secondsToString
 							  ] );
 	_report pushback ( format ["Penalty - Wrong Weapon (x%1): +%2",
 								(_logic getVariable "TS2_penaltyWrongWeapon"),
-								[_wrongPenalty, "MM:SS"] call BIS_fnc_secondsToString
+								[abs _wrongPenalty, "MM:SS.MS"] call BIS_fnc_secondsToString
 							  ] );
 	_report pushback ( format ["Penalty - Missed Shot (x%1): +%2",
 								(_logic getVariable "TS2_penaltyMissedShots"),
-								[_missPenalty, "MM:SS"] call BIS_fnc_secondsToString
+								[abs _missPenalty, "MM:SS.MS"] call BIS_fnc_secondsToString
 							  ] );
 	_report pushback ( format ["Penalty - Skipped Targets (x%1): +%2",
 								(_logic getVariable "TS2_penaltySkippedTargets"),
-								[_skipPenalty, "MM:SS"] call BIS_fnc_secondsToString
+								[abs _skipPenalty, "MM:SS.MS"] call BIS_fnc_secondsToString
 							  ] );
-	_report pushback ( format ["Bonus Gain: %1", [_deltaT, "MM:SS"] call BIS_fnc_secondsToString] );
+	private _deltaTString = "";
+	if (_deltaT > 0) then
+	{
+		_deltaTString = format ["Gain/Loss: +%1", [abs _deltaT, "MM:SS.MS"] call BIS_fnc_secondsToString];
+	}
+	else
+	{
+		_deltaTString = format ["Gain/Loss: -%1", [abs _deltaT, "MM:SS.MS"] call BIS_fnc_secondsToString];
+	};
+	_report pushback _deltaTString;
 	_report;	// return
 };
 
 
 
-IGN_fnc_getAllPhaseScores =
+TS2_fnc_getAllPhaseScores =
 {
 	private _score = 0;
 	{

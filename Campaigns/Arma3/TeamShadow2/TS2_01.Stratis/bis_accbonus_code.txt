@@ -1,0 +1,77 @@
+//Accuracy zones" 
+                         			private ["_zoneDummies"]; 
+                         			_zoneDummies = _target getVariable ["zoneDummies", []]; 
+                         			if ((count _zoneDummies) > 0) then 
+                         			{ 
+                         				//Find nearest zone
+                         				private ["_shotPos", "_distToZones", "_closestZone", "_distZone"]; 
+                         				_shotPos = (_this select 0) select 3; 
+                         				//TODO: optimize in single loop					
+                         				_distToZones = []; 
+                         				{ 
+                         					_distToZones set [count _distToZones, (getPosASL _x) distance _shotPos]; 
+                         				} forEach _zoneDummies; 
+                         				
+                         				_closestZone = 0; 
+                         				_distZone = _distToZones select 0; 
+                         				
+                         				{ 
+                         					if (_x < _distZone) then 
+                         					{ 
+                         						_closestZone = _forEachIndex; 
+                         						_distZone = _x; 
+                         					}; 
+                         				} forEach _distToZones; 
+                        
+                         				//TODO: remove debug
+                         				//_closestZone call BIS_fnc_log; 
+                         				//_distZone call BIS_fnc_log; 
+                         				/*
+                         				private ["_decal"]; 
+                         				_decal = "Steel_Plate_S_F" createVehicle _shotPos; 
+                         				_decal setPosASL _shotPos; 
+                         				_decal enableSimulation false; 
+                         				*/
+                         
+                         				private ["_accuracyBonus", "_zoneBonuses"]; 
+                         				_accuracyBonus = 0; 
+                         				_zoneBonuses = (_target getVariable ["zoneBonuses", []]) select _closestZone; 
+                         				
+                         				{ 
+                         					if (_distZone <= _x) then {_accuracyBonus = _zoneBonuses select _forEachIndex;}; 
+                         				} forEach ((_target getVariable ["zoneDistances", []]) select _closestZone); 
+                         				
+                         				//_accuracyBonus call BIS_fnc_log; 
+                         				if ((_accuracyBonus > 0) && _direct) then 
+                         				{ 
+                         					private ["_bonusPoints"]; 
+                         					_bonusPoints = BIS_FD_bonusPoints select 4; 
+                         					_bonusPoints = _bonusPoints + _accuracyBonus; 
+                         					BIS_FD_bonusPoints set [4, _bonusPoints]; 
+                         
+                         					BIS_FD_bonuses set [count BIS_FD_bonuses, 4]; 
+                         					" 
+                         					if (!_feedbackGiven) then 
+                         					{ 
+                         						if (_accuracyBonus >= 10) then 
+                         						{ 
+                         							["MiscRC", "Firing_Drills", [["ROF", 0], true], "SIDE"] spawn BIS_fnc_kbTell; 
+                         						} 
+                         						else 
+                         						{ 
+                         							if (((random 1) >= 0.5) || (_accuracyBonus >= 6)) then 
+                         							{ 
+                         								["MiscRC", "Firing_Drills", [[["ROF", 1], ["ROF", 2], ["ROF", 3]] call BIS_fnc_selectRandom, true], "SIDE"] spawn BIS_fnc_kbTell; 
+                         							}; 
+                         						}; 
+                         					
+                         						_feedbackGiven = true; 
+                         					}; 
+                         
+                         					if (((random 1) >= 0.95) && (_accuracyBonus >= 8) && !_feedbackGiven) then 
+                         					{ 
+                         						["MiscRC", "Firing_Drills", [["ROF", 18], true], "SIDE"] spawn BIS_fnc_kbTell; 
+                         						_feedbackGiven = true; 
+                         					}; 
+                         				}; 
+                         			};

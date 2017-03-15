@@ -9,3 +9,5 @@
 	[group_Players,["task_FindSAM2", task_FindSAMs],["Find SAM site B", "Find SAM site B", ""],objNull,1,2,true] call BIS_fnc_taskCreate;
 	[group_Players,["task_FindSAM3", task_FindSAMs],["Find SAM site C", "Find SAM site C", ""],objNull,1,2,true] call BIS_fnc_taskCreate;
 	[group_Players,["task_FindSAM4", task_FindSAMs],["Find SAM site D", "Find SAM site D", ""],objNull,1,2,true] call BIS_fnc_taskCreate;
+
+"mrk_uav" setMarkerAlpha 1;

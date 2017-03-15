@@ -1,0 +1,10 @@
+/* #Jigedi
+$[
+	1.063,
+	["TimeTrialGUIEditor",[[0,0,1,1],0.025,0.04,"GUI_GRID"],0,0,0],
+	[1100,"TTTextLine1",[1,"Time: 00:00.00",["0.786875 * safezoneW + safezoneX","0.789013 * safezoneH + safezoneY","0.167344 * safezoneW","0.0340016 * safezoneH"],[0.75,0.75,0.75,1],[-1,-1,-1,-1],[-1,-1,-1,-1],"","0.2"],[]],
+	[1101,"TTTextLine2",[1,"Targets: 3",["0.786875 * safezoneW + safezoneX","0.823015 * safezoneH + safezoneY","0.167344 * safezoneW","0.0340016 * safezoneH"],[0.75,0.75,0.75,1],[-1,-1,-1,-1],[-1,-1,-1,-1],"","0.2"],[]],
+	[1102,"TTTextLine3",[1,"Penalty: +01:15.00",["0.786875 * safezoneW + safezoneX","0.857016 * safezoneH + safezoneY","0.167344 * safezoneW","0.0340016 * safezoneH"],[0.75,0.75,0.75,1],[-1,-1,-1,-1],[-1,-1,-1,-1],"","0.2"],[]],
+	[1103,"TTTextLine4",[1,"Bonus: -05.00",["0.786875 * safezoneW + safezoneX","0.891018 * safezoneH + safezoneY","0.167344 * safezoneW","0.0340016 * safezoneH"],[0.75,0.75,0.75,1],[-1,-1,-1,-1],[-1,-1,-1,-1],"","0.2"],[]]
+]
+*/

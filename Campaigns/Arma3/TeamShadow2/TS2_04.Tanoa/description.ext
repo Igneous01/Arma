@@ -1,3 +1,4 @@
+
 #include "ACS\resources\definitions.hpp"
 #include "ACS\resources\ACS_dialog.hpp"
 
@@ -69,6 +70,26 @@ class CfgNotifications
 	};
 };
 
+class CfgDebriefing
+{
+	class End1
+	{
+		title = "Mission Completed";
+		subtitle = "";
+		description = "Operation Strix was a success.";
+		pictureBackground = "";
+		picture = "";
+	};
+
+	class loser
+	{
+		title = "Mission Failed";
+		subtitle = "";
+		description = "The operation has been aborted.";
+		pictureBackground = "";
+		picture = "";
+	};
+};
 
 
 class CfgFunctions

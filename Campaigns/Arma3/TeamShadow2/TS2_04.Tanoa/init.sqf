@@ -2,7 +2,7 @@
 #include "ACS\ACS_userFunctions.sqf"
 #include "Scripts\init_conversations.sqf"
 
-call compile preprocessfilelinenumbers "functions.sqf";	// mission specific functions
+call compile preprocessfilelinenumbers "Scripts\functions.sqf";	// mission specific functions
 call compile preprocessfilelinenumbers "IGN_LIB\IGN_LIB_INIT.sqf";	// events and functions
 
 bool_FoundSAMs = false;
@@ -49,6 +49,9 @@ task_Extract_Description =
 	"Extract",
 	"Extract"
 ];
+
+"mrk_uav" setMarkerAlpha 0;
+"mrk_ewj" setMarkerAlpha 0;
 
 // force players to eject from vehicle
 //{ _x action ["Eject",vehicle _x] } foreach units group player;

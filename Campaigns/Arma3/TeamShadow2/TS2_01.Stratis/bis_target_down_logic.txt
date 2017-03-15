@@ -1,0 +1,15 @@
+_target say ""FD_Target_PopDown_Small_F"";" \n
+                         "				(BIS_FD_ruleSelectors select 0) animate [""Target_Bottom_Rotate"", 0];" \n
+                         "				(BIS_FD_ruleSelectors select 0) animate [""Bottom_Rotate"", 0];" \n
+                         "				(BIS_FD_ruleSelectors select 0) say ""FD_Target_PopUp_Small_F"";" \n
+
+
+center[] = {0,0.17,0.66};
+
+_target say "FD_Target_PopDown_Large_F";
+
+_rpm = _target getVariable ["BIS_rpm", 6];
+
+_target animate [format ["Swivel_%1rpm_rot", _rpm], _target animationPhase (format ["Swivel_%1rpm_rot", _rpm])];
+_target animate ["terc", 1];
+_target say "FD_Target_PopDown_Large_F";
