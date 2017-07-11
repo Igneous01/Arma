@@ -1,4 +1,23 @@
-sfteam 62, waypoint 1 statements did not execute or complete task
+
+sfteam 62, waypoint 1 statements did not execute or complete task 
+- still happens, probably caused by the squad starting off inside the shed, glitching out their pathing
+
 more conversation and talk back between 62 and shadow, and sead
+- added
 
 adjust sleep counters on eta bombing run/etc
+- corrected
+
+performance drops - too many ai? look at caching
+
+one of the upsmon markers did not disappear - problem? (southwest of SFTeam Ingress)
+
+upsmon errors in UPSMON_patrolbuilding.sqf
+
+no LOS for AmbientAA Fire (retest this again)
+
+disable debug for ambientAA after this is fixed
+
+make everyone go danger when things blow up?
+
+add sound effect when task is completed

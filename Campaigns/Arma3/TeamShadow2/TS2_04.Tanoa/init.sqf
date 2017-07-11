@@ -1,7 +1,8 @@
 // conversation init
 #include "ACS\ACS_userFunctions.sqf"
 #include "Scripts\init_conversations.sqf"
-
+//Init UPSMON script
+call compile preprocessFileLineNumbers "Scripts\Init_UPSMON.sqf";
 call compile preprocessfilelinenumbers "Scripts\functions.sqf";	// mission specific functions
 call compile preprocessfilelinenumbers "IGN_LIB\IGN_LIB_INIT.sqf";	// events and functions
 
